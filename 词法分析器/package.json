@@ -1,0 +1,11 @@
+{
+  "name": "node-analysis",
+  "version": "1.0.0",
+  "description": "JavaScript词法分析器",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "XiaoGaoYang",
+  "license": "ISC"
+}
