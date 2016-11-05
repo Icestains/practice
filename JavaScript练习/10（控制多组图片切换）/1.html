@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>控制多组图片切换</title>
+	<style type="text/css">
+
+	html,body,div,input,img,span,p { margin:0;padding:0; }
+	html,body { width:100%;height:100%; }
+	body { background:url(../images/1.jpg);background-size:cover; }
+
+	#box { width:1200px;position:relative;margin:0 auto; }
+	#box input { width:80px;height:30px;border-radius:6px;position:absolute;top:50px; }
+	#box input:nth-of-type(1) { left:0px; }
+	#box input:nth-of-type(2) { left:100px; }
+
+	#img1,#img2 { position:absolute;top:100px; }
+	#img1 img,#img2 img { border-width:10px 10px 0 10px;border-color:white;border-style:solid; }
+	#img1 p,#img2 p { text-align:center;background:white;position:relative;top:-3px;height:30px;line-height:30px;font-weight:bold; }
+	#img1 span,#img2 span { background:white;display:block;position:relative;top:-3px;text-indent:18px;height:30px;line-height:30px;font-weight:bold; }
+
+	#img1 { width:620px;left:0; }
+	#img1 img { width:600px;height:338px; }
+	#img1 span { width:620px; }
+
+	#img2 { width:520px;right:0; }
+	#img2 img { width:500px;height:400px; }
+	#img2 span { width:520px; }
+
+	</style>
+	<script type="text/javascript">
+	window.onload = function(){
+		var aBtns = document.getElementsByTagName('input');
+		var aImgs = document.getElementsByTagName('img');
+		var aPs = document.getElementsByTagName('p');
+		var aSpans = document.getElementsByTagName('span');
+
+		var index1 = 0;
+		var index2 = 0;
+
+		var img1Url = ['../images/12.jpg','../images/13.jpg','../images/14.jpg','../images/15.jpg'];
+		var img2Url = ['../images/7.jpg','../images/8.jpg','../images/9.jpg'];
+
+		//图片切换函数
+		function Tab(){
+			aImgs[0].src = img1Url[index1];
+			aImgs[1].src = img2Url[index2];
+
+			aPs[0].innerHTML = '第一组第' + (1+index1) + '张';
+			aPs[1].innerHTML = '第二组第' + (1+index2) + '张';
+
+			aSpans[0].innerHTML = (1+index1) + '/' + (img1Url.length);
+			aSpans[1].innerHTML = (1+index2) + '/' + (img2Url.length);
+		}
+
+		//图片1切换改变
+		function change1(){
+			index1++;
+			if(index1 >= img1Url.length) index1 = 0;
+		}
+
+		//图片2切换改变
+		function change2(){
+			index2++;
+			if(index2 >= img2Url.length) index2 = 0;
+		}
+
+		Tab();//初始化
+
+		//上一组
+		aBtns[0].onclick = function(){
+			index1--;
+			index2--;
+
+			if(index1 <= -1) index1 = img1Url.length-1;
+			if(index2 <= -1) index2 = img2Url.length-1;
+
+			Tab();
+
+		}
+
+		//下一组
+		aBtns[1].onclick = function(){
+			change1();
+			change2();
+			Tab();
+		}
+
+		//图片1点击事件
+		aImgs[0].onclick = function(){
+			change1();
+			Tab();
+		}
+
+		//图片2点击事件
+		aImgs[1].onclick = function(){
+			change2();
+			Tab();
+		}
+	}
+	</script>
+</head>
+<body>
+	<div id="box">
+
+		<input type="button" value="上一组" />
+		<input type="button" value="下一组" />
+
+		<div id="img1">
+			<img src="" />
+			<p>文字加载中...</p>
+			<span>文字加载中...</span>
+		</div>
+
+		<div id="img2">
+			<img src="" />
+			<p>文字加载中...</p>
+			<span>文字加载中...</span>
+		</div>
+
+	</div>
+</body>
+</html>

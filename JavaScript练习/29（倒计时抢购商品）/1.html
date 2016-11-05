@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>倒计时抢购商品</title>
+	<link rel="stylesheet" href="style/reset.css">
+	<style>
+	#box { width:800px;margin:30px auto 0; }
+
+	#top { /* margin:0 10px; */ }
+	#top h2 { font-size:16px;border-bottom:2px solid #a0a0a4;line-height:30px; }
+	#top ul { margin-top:10px; }
+	#top li { float:left;width:180px;height:260px;margin-right:20px;position:relative; }
+	#top img { width:180px; }
+	#top input { width:140px; }
+	#top strong { cursor:pointer; }
+	#top em { font-size:16px; }
+	#top .infor { display:block;position:absolute;left:0;top:0px;background:white; }
+	#top .pic { display:none; }
+
+	#bottom { margin-top:50px; }
+	#bottom h1 { width:800px;height:36px;background:#ded6e7;line-height:36px; }
+	#bottom dd { width:800px;height:70px;background:#ded6e7;margin-top:8px;line-height:70px; }
+	#bottom dl span,#bottom dl em,#bottom h1 span,#bottom h1 em { float:left;width:300px; }
+	#bottom img { float:left;height:60px;border:1px solid black; }
+	#bottom h2 { margin-top:10px;font-size:20px; }
+	</style>
+	<script src="style/vslw.js"></script>
+	<script>
+	window.onload = function(){
+		var oTop = $('top');
+		var aLiTop = oTop.getElementsByTagName('li');
+		var oBottom = $('bottom');
+		var oDlBottom = oBottom.getElementsByTagName('dl')[0];
+		var oSpanH2Bottom = oBottom.getElementsByTagName('h2')[0].getElementsByTagName('span')[0];
+		var str = '';
+		var aDD = oBottom.getElementsByTagName('dd');
+
+		for ( var i=0;i<aLiTop.length;i++ ) fun( aLiTop[i] );
+
+		function fun ( obj ) {
+			var oInp = obj.getElementsByTagName('input')[0];
+			var oStr = obj.getElementsByTagName('strong')[0];
+			var oEm = obj.getElementsByTagName('em')[0];
+			var oImg = obj.getElementsByTagName('img')[0];
+			var oSpan = obj.getElementsByTagName('span')[0];
+			var aDiv = obj.getElementsByTagName('div');
+			var oP = obj.getElementsByTagName('p')[0];
+
+			//确定点击时进行倒计时倒计时
+			oStr.onclick = function () {
+				countDown( oInp, oEm, function(){							//进行倒计时，倒计时变为0时调用抖动函数
+					shake( aDiv[0], 'left', function(){						//抖动，抖动完后进行向下移动，并且透明度渐变为0,下架图片display变为block
+						aDiv[1].style.display = 'block';
+						doMove( aDiv[0], 'top', 20, 250 );
+						opacity( aDiv[0], 0, function(){					//透明度变为0后bottom里面增加相应的内容
+							str = '<dd><span>' + oP.innerHTML + '</span><em>' + oSpan.innerHTML + '</em><img src="' + oImg.src + '"></dd>';
+							oDlBottom.innerHTML += str;
+							oSpanH2Bottom.innerHTML = parseFloat(oSpanH2Bottom.innerHTML) + parseFloat(oSpan.innerHTML);
+						} );
+					} );
+				} );
+			}
+		}
+
+		//获得剩余时间的函数
+		function countDown( obj, obj2, endFn ){
+			var targetTime = new Date(obj.value);						//目标时间
+			var str = '';
+			clearInterval( obj.timer );
+			obj.timer = setInterval(function(){
+				var nowTime = new Date();								//现在时间
+				var t = Math.floor( (targetTime-nowTime) /1000);		//目标时间与现在时间相差的秒数
+				if ( t<0 ) {
+					clearInterval(obj.timer);
+					endFn && endFn();
+					return;
+				}
+				var iDays = Math.floor(t/86400);
+				var iHours = Math.floor(t%86400/3600);
+				var iMinutes = Math.floor(t%86400%3600/60);
+				var iSeconds = Math.floor(t%60);
+				str = '剩余' + toTwo(iDays) + '天' + toTwo(iHours) + '时' + toTwo(iMinutes) + '分' + toTwo(iSeconds) + '秒';
+				obj2.innerHTML = str;
+			}, 1000);
+		}
+
+		function toTwo( n ) {
+			return n < 10 ?  '0' + n : '' + n;
+		}
+	}
+	</script>
+</head>
+<body>
+<div id="box">
+	<div id="top" class="clear">
+		<h2>限购时间</h2>
+		<ul>
+			<li>
+				<div class="infor">
+					<input type="text" value="August 2,2015 12:38:56">
+					<strong>确定</strong>
+					<em>剩余00天00时00分00秒</em>
+					<img src="img/1.jpg" alt="">
+					<p>疯狂168，美的爆款面板下拉们微波驴电风扇</p>
+					<p>抢购价：￥<span>168.00</span></p>
+				</div>
+				<div class="pic">
+					<img src="img/xiaJia.jpg" alt="">
+				</div>
+			</li>
+			<li>
+				<div class="infor">
+					<input type="text" value="August 2,2015 12:38:56">
+					<strong>确定</strong>
+					<em>剩余00天00时00分00秒</em>
+					<img src="img/2.jpg" alt="">
+					<p>疯狂338，美的爆款面板下拉们微波驴电风扇</p>
+					<p>抢购价：￥<span>338.00</span></p>
+				</div>
+				<div class="pic">
+					<img src="img/xiaJia.jpg" alt="">
+				</div>
+			</li>
+			<li>
+				<div class="infor">
+					<input type="text" value="August 2,2015 12:38:56">
+					<strong>确定</strong>
+					<em>剩余00天00时00分00秒</em>
+					<img src="img/3.jpg" alt="">
+					<p>疯狂520，美的爆款面板下拉们微波驴电风扇</p>
+					<p>抢购价：￥<span>520.00</span></p>
+				</div>
+				<div class="pic">
+					<img src="img/xiaJia.jpg" alt="">
+				</div>
+			</li>
+			<li>
+				<div class="infor">
+					<input type="text" value="August 2,2015 12:38:56">
+					<strong>确定</strong>
+					<em>剩余00天00时00分00秒</em>
+					<img src="img/4.jpg" alt="">
+					<p>疯狂599，美的爆款面板下拉们微波驴电风扇</p>
+					<p>抢购价：￥<span>599.00</span></p>
+				</div>
+				<div class="pic">
+					<img src="img/xiaJia.jpg" alt="">
+				</div>
+			</li>
+		</ul>
+	</div>
+	<div id="bottom">
+		<h1><span>商品名称</span><em>价钱</em></h1>
+		<dl></dl>
+		<h2>总价：<span>0.00</span>元</h2>
+	</div>
+</div>
+</body>
+</html>

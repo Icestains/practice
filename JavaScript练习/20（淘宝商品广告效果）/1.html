@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>淘宝商品广告效果</title>
+	<link rel="stylesheet" type="text/css" href="./style/reset.css">
+	<style type="text/css">
+	html,body { width:100%;height:100%;background:url(../images/1.jpg);background-size:cover;overflow:hidden; }
+
+	#box { width:290px;height:200px;margin:60px auto;position:relative; }
+
+	#left,#right { position:absolute;top:0; }
+	#left li,#right li { color:white;width:38px;text-align:center;height:26px;line-height:26px;border:1px solid white;margin-bottom:0.6px;border-radius:8px;cursor:pointer; }
+	.active { background:rgba(145,109,149,0.8); }
+
+	#left { left:0; }
+	#right { right:0; }
+
+	img { width:200px;height:200px;float:left;margin-left:45px;border-radius:10px; }
+	</style>
+	<script type="text/javascript" src="./style/vslw.js"></script>
+	<script type="text/javascript">
+	window.onload = function() {
+		var oBox = $('box');
+		var oLeft = $('left');
+		var oRight = $('right');
+		var oPic = $('pic');
+		var aLi = document.getElementsByTagName('li');
+		var imgUrl = ['../images/27.jpg','../images/28.jpg','../images/29.jpg','../images/30.jpg','../images/31.jpg','../images/32.jpg','../images/33.jpg','../images/34.jpg','../images/35.jpg','../images/36.jpg','../images/37.jpg','../images/38.jpg','../images/39.jpg','../images/40.jpg'];
+		var timer = null;
+		var checked = 0;								//该变量用来记录当前选中的
+		var dir = 0;									//记录li自动切换的方向，默认方向为正向
+		var temp = aLi[0];								//记录鼠标移过li时的上一个li
+
+		for ( var i=0; i<aLi.length; i++ ) {
+			aLi[i].index = i;
+			aLi[i].onmouseover = function() {				//鼠标移入时
+				picTab(this);
+				//记录鼠标在这个过程中移动的方向
+				if ( this.index >  temp.index ) {			//当前的index大于前一个的index
+					if ( this.index == aLi.length-1 ) {		//如果当前是最后一个的话，往反向移动，令dir=1
+						dir = 1;
+					} else {								//不是最后一个的话，就是往正向移动，令dir=0
+						dir = 0;
+					}
+				} else if ( this.index < temp.index ) {		//当前的index小于前一个的index
+					if ( this.index == 0 ) {				//如果当前的是第一个的话，往正向移动，令dir=0
+						dir = 0;
+					} else {								//不是第一个的话，往反向移动，令dir=1
+						dir = 1;
+					}
+				}
+
+				temp = this;							//更新temp
+			}
+		}
+
+		picTab(aLi[0]);
+
+		function picTab(obj){
+			for ( var i=0; i<aLi.length; i++ ) {		//先清除所有li的active类
+				aLi[i].className = '';
+			}
+			obj.className = 'active';					//然后给当前li加active类
+			oPic.src = imgUrl[obj.index];				//最后更新图片src
+			checked = obj.index;
+		}
+
+		autoPlay();
+
+		oBox.onmouseout = function() {
+			clearInterval(timer);
+			autoPlay();
+		}
+		oBox.onmouseover = function() {
+			clearInterval(timer);
+		}
+
+		function autoPlay() {
+			timer = setInterval(function(){
+				//根据方向选择来改变checked
+				if ( dir == 1 ) {						//1代表反向
+					checked--;
+					if( checked <= 0 ) {				//移到第一个时切换方向
+						dir = 0
+					}
+				} else if ( dir == 0 ) {					//0代表正向
+					checked++;
+					if ( checked >= aLi.length-1 ) {	//移到最后一个时切换方向
+						dir = 1;
+					}
+				}
+				picTab(aLi[checked]);
+			}, 1000);
+		}
+	}
+	</script>
+</head>
+<body>
+	<div id="box">
+		<img src="" id="pic" />
+		<ul id="left">
+			<li>熊</li>
+			<li>路飞</li>
+			<li>女帝</li>
+			<li>赤犬</li>
+			<li>女帝2</li>
+			<li>索隆</li>
+			<li>红发</li>
+		</ul>
+		<ul id="right">
+			<li>乔巴</li>
+			<li>路飞2</li>
+			<li>艾斯</li>
+			<li>吃货</li>
+			<li>乔巴2</li>
+			<li>罗宾</li>
+			<li>娜美</li>
+		</ul>
+	</div>
+</body>
+</html>

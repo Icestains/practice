@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>新浪微博</title>
+	<style>
+	* { margin:0;padding:0; }
+	#content { border:1px solid black;width:300px;height:300px;margin:0 auto;overflow:hidden; }
+	#content div { border-bottom:1px dashed black;margin:0 auto;padding:5px;opacity:0;filter:alpha(opacity:0); }
+	</style>
+	<script src="move.js"></script>
+	<script>
+	window.onload = function(){
+		var oText = document.getElementById('text');
+		var oBtn = document.getElementsByTagName('input')[0];
+		var oContent = document.getElementById('content');
+
+		oBtn.onclick = function(){
+			var oDiv = document.createElement('div');
+
+			oDiv.innerHTML = oText.value;
+			oText.value = '';
+
+			if ( oContent.children[0] ) {
+				oContent.insertBefore(oDiv,oContent.children[0]);
+			} else {
+				oContent.appendChild(oDiv);
+			}
+
+			//先记录高度，再将高度设置为0，用运动效果变为原来的高度
+			var iHeight = parseInt( getStyle(oDiv,'height') );
+			oDiv.style.height = '0px';
+
+			startMove(oDiv,{'height':iHeight},function(){
+				startMove(oDiv,{'opacity':100});
+			});
+		}
+	}
+	</script>
+</head>
+<body>
+	<textarea id="text" cols="30" rows="10"></textarea>
+	<input type="button" value="提交" />
+	<div id="content">
+		<!-- <div>sdfhsdfjs哈佛</div> -->
+	</div>
+</body>
+</html>

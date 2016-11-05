@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <style>
+            html,body,input,ul,li{
+                padding:0;
+                margin:0;
+            }
+            input{
+                margin:10px 0 0 10px;
+                padding:3px 6px;
+            }
+            li{
+                width:80px;
+                height:80px;
+                list-style:none;
+                /* background:red; */
+                line-height:80px;
+                text-align:center;
+                font-size:40px;
+                position:absolute;
+            }
+        </style>
+        <script>
+            window.onload = function(){
+
+
+                var oBtn = document.getElementsByTagName('input')[0];
+                var oUl = document.getElementsByTagName('ul')[0];
+                var aColor = ['red','yellow','blue','green'];
+                var str = '';
+                var kedian = true;
+                var aLi = oUl.getElementsByTagName('li');
+                var j = 0;//用来控制颜色
+                var hang;
+                var lie;
+
+                oBtn.onclick = function(){
+                    if(kedian){
+                        for(var i=0;i<100;i++){
+                            str += '<li>' + i + '</li>';
+                        }
+                        oUl.innerHTML = str;
+                        var aLiLen = aLi.length;
+
+
+                        for(var i=0;i<aLi.length;i++){
+                            
+                            
+                            
+                            if(j==4){
+                                j = 0;
+                            }
+                            hang = Math.floor(i/10);
+                            lie = i%10;
+                            var h = hang*90+50;
+                            var l = lie*90+30;
+                            //console.log(h,l,i);
+                            aLi[i].style.cssText = 'background-color:' + aColor[j++] + ';top:'+h+'px;left:'+l+'px;';
+                            
+                        }
+
+                        
+
+                        kedian = false;
+                    }
+                }
+
+
+
+            }
+        </script>
+    </head>
+    <body>
+        <input type="button" value="点击生成100个li" />
+        <ul>
+        </ul>
+    </body>
+</html>

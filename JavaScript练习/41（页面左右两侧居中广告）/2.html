@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>页面左右两侧居中广告</title>
+	<style>
+	* { margin:0;padding:0; }
+	body { height:5000px; }
+	div { width:100px;height:300px;background:red;position:absolute; }
+	#div1 { left:10px; }
+	#div2 { right:10px; }
+	</style>
+	<script>
+	window.onload = function(){
+		var aDiv = document.getElementsByTagName('div');
+		verticalCenter();
+		window.onscroll = function(){
+			verticalCenter();
+		}
+
+		function verticalCenter () {
+			var clientHeight = document.documentElement.clientHeight;
+			var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+			for( var i=0;i<aDiv.length;i++ ) {
+				aDiv[i].style.top = scrollTop + (clientHeight - aDiv[i].offsetHeight)/2 + 'px';
+			}
+		}
+	}
+	</script>
+</head>
+<body>
+	<div id="div1"></div>
+	<div id="div2"></div>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <style>
+            html,body,ul,li { margin:0;padding:0; }
+            html,body { width:100%;height:100%; }
+            body { background-image:url(../images/1.jpg);background-size:cover;overflow:hidden; }
+            li { list-style:none; }
+
+            #box { width:812px;height:612px;position:relative;margin:30px auto; }
+            #box input { width:80px;height:80px;border-radius:50%;background:rgba(13,68,128,0.6);position:absolute;top:260px;color:white;line-height:80px;font-size:20px; }
+            #box input:nth-of-type(1) { left:-90px; }
+            #box input:nth-of-type(2) {right:-90px; }
+
+            #photo { width:800px;height:600px;border:6px solid white; }
+
+            #index { width:90px;height:12px;position:relative;margin:10px auto; }
+            #index li { width:12px;height:12px;border-radius:50%;float:left;margin-left:6px;background:rgb(148,165,156);position:relative; }
+            #index .active { background:rgb(239,189,0); }
+            #index img { width:172px;height:132px;position:absolute;display:none;left:-86px;top:-158px;border:6px solid white; }
+            #index .imghover { display:block; }
+            #index span { display:none;width:0;height:0;border:10px solid transparent;border-top-color:white;position:absolute;left:-5px;top:-14px; }
+            #index .spanhover { display:block; }
+
+        </style>
+        <script>
+        window.onload = function(){
+
+            var aBtns = document.getElementsByTagName('input');
+            var oPhoto = document.getElementById('photo');
+            var oIndex = document.getElementById('index');
+            var oIndexLis = oIndex.getElementsByTagName('li');
+            var oIndexImgs = oIndex.getElementsByTagName('img');
+            var oIndexSpans = oIndex.getElementsByTagName('span');
+            // var oPhotoUrl = ['./img/1.jpg','./img/2.jpg','./img/3.jpg','./img/4.jpg','./img/5.jpg'];
+            var oPhotoUrl = ['../images/2.jpg','../images/3.jpg','../images/4.jpg','../images/5.jpg','../images/6.jpg'];
+            var oPhotoIndex = 0;
+
+            //处理图片切换的函数
+            function fnTab(){
+                oPhoto.src = oPhotoUrl[oPhotoIndex];
+                for(var i=0;i<oPhotoUrl.length;i++){                    //清除li的active类
+                    oIndexLis[i].className = '';
+                }
+                oIndexLis[oPhotoIndex].className = 'active';            //注意：使用className时前面不用加style
+            }
+
+            fnTab();                                                    //初始化图片
+
+            //上一张
+            aBtns[0].onclick = function(){
+                oPhotoIndex--;
+                if(oPhotoIndex <= -1) oPhotoIndex = 4;
+                fnTab();
+            }
+
+            //下一张
+            aBtns[1].onclick = function(){
+                oPhotoIndex++;
+                if(oPhotoIndex >= oPhotoUrl.length) oPhotoIndex = 0;
+                fnTab();
+            }
+
+            //为li添加鼠标移入移出点击事件
+            for(var i=0;i<oPhotoUrl.length;i++){
+
+                oIndexLis[i].index = i;										//加索引
+
+                //鼠标移入事件
+                oIndexLis[i].onmouseover = function(){
+                    oIndexImgs[this.index].className = 'imghover';
+                    oIndexSpans[this.index].className = 'spanhover';
+                }
+
+                //鼠标移出事件
+                oIndexLis[i].onmouseout = function(){
+                    for(var i=0;i<oPhotoUrl.length;i++){                    //清除img、span的类
+                        oIndexImgs[i].className = '';
+                        oIndexSpans[i].className = '';
+
+                    }
+                }
+
+                //鼠标点击事件
+                oIndexLis[i].onclick = function(){
+                	oPhotoIndex = this.index;
+                	fnTab();
+                }
+
+            }
+
+        }
+        </script>
+    </head>
+    <body>
+    <div id="box">
+    	<input type="button" value="上一张" />
+    	<input type="button" value="下一张" />
+    	<img src="" id="photo" />
+    	<ul id="index">
+    		<li>
+    			<img src="../images/2.jpg" />
+    			<span></span>
+    		</li>
+    		<li>
+    			<img src="../images/3.jpg" />
+    			<span></span>
+    		</li>
+    		<li>
+    			<img src="../images/4.jpg" />
+    			<span></span>
+    		</li>
+    		<li>
+    			<img src="../images/5.jpg" />
+    			<span></span>
+    		</li>
+    		<li>
+    			<img src="../images/6.jpg" />
+    			<span></span>
+    		</li>
+    	</ul>
+    </div>
+    </body>
+</html>

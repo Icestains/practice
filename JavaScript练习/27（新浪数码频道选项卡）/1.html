@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>新浪数码频道选项卡</title>
+	<link rel="stylesheet" href="style/reset.css">
+	<style>
+	html,body { width:100%;height:100%;background:url(../images/1.jpg) no-repeat;background-size:cover;overflow:hidden; }
+	li { float:left; }
+
+	#box { width:800px;margin:30px auto; }
+
+	#top { margin-bottom:10px; }
+	#top li { margin-right:6px; }
+	#top a { color:white;padding:0 12px;border:1px solid white;font-size:22px;line-height:34px;display:block; }
+	#top .active { background:rgb(64,111,183); }
+
+	#middle { width:800px;height:200px;overflow:hidden;position:relative; }
+	#middle ul { width:1800px;position:absolute;left:0; } /* 此处width不能写死，要在js里控制 */
+
+	#bottom { width:800px;text-align:center;margin:10px auto 0; }
+	#bottom ul { display:inline-block;vertical-align:middle; }
+	#bottom li { width:12px;height:12px;background:rgb(173,181,181);margin-right:6px;border-radius:50%; }
+	#bottom .active { background:rgb(214,239,247); }
+	#bottom a { color:black;display:inline-block;width:22px;height:15px;background:rgb(165,222,247);vertical-align:middle; }
+	</style>
+	<script src="style/vslw.js"></script>
+	<script>
+	window.onload = function(){
+		var oTop = $('top');
+		var oMiddle = $('middle');
+		var oBottom = $('bottom');
+		var aLiTop = oTop.getElementsByTagName('li');
+		var oUlMiddle = oMiddle.getElementsByTagName('ul')[0];
+		var aLiMiddle = oUlMiddle.getElementsByTagName('li');
+		var aBtnBottom = oBottom.getElementsByTagName('a');
+		var aLiBottom = oBottom.getElementsByTagName('li');
+
+		picTab();
+
+		//点击可进行左右移动
+		function picTab(){
+			var num = 0;//用来记录点击次数的变量
+			aBtnBottom[0].onclick = function(){
+				var distance = 800*(--num);
+				if ( distance < 0 ) distance = 0;
+				doMove(oUlMiddle, 'left', 30, -distance);
+			}
+			//点右往右移动
+			aBtnBottom[1].onclick = function(){
+				var distance = 800*(++num);
+				if ( distance > (1800-800) ) distance = 1800-800;
+				doMove(oUlMiddle, 'left', 30, -distance);
+			}
+		}
+	}
+	</script>
+</head>
+<body>
+	<div id="box">
+		<ul id="top" class="clear">
+			<li class="active"><a href="#">新品</a></li>
+			<li><a href="#">极客</a></li>
+		</ul>
+		<div id="middle">
+			<ul class="clear">
+				<li><a href="#"><img src="../images/27.jpg" /></a></li>
+				<li><a href="#"><img src="../images/28.jpg" /></a></li>
+				<li><a href="#"><img src="../images/29.jpg" /></a></li>
+				<li><a href="#"><img src="../images/30.jpg" /></a></li>
+				<li><a href="#"><img src="../images/31.jpg" /></a></li>
+				<li><a href="#"><img src="../images/32.jpg" /></a></li>
+				<li><a href="#"><img src="../images/33.jpg" /></a></li>
+				<li><a href="#"><img src="../images/34.jpg" /></a></li>
+				<li><a href="#"><img src="../images/35.jpg" /></a></li>
+			</ul>
+		</div>
+		<div id="bottom">
+			<a href="javascrpt:;">左</a>
+			<ul class="clear">
+				<li class="active"></li>
+				<li></li>
+				<li></li>
+			</ul>
+			<a href="javascrpt:;">右</a>
+		</div>
+	</div>
+</body>
+</html>

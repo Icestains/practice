@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>getElementsByClassName拓展</title>
+	<script>
+	function getElementsByClassName(parent, tagName, className) {
+		var aEls = parent.getElementsByTagName(tagName);
+		var arr = [];
+
+		for ( var i=0; i<aEls.length; i++ ) {
+			var aClassName = aEls[i].className.split(' ');
+			for ( var j=0; j<aClassName.length; j++ ) {
+				if ( aClassName[j] == className ) {
+					arr.push(aEls[i]);
+					break;
+				}
+			}
+		}
+
+		return arr;
+	}
+
+	window.onload = function () {
+		var oUl1 = document.getElementById('ul1');
+		var oUl2 = document.getElementById('ul2');
+		var arr = getElementsByClassName(document, '*', 'box1');
+		console.log ( arr );
+		for ( var i=0; i<arr.length; i++ ) {
+			arr[i].style.backgroundColor = 'red';
+		}
+	}
+	</script>
+</head>
+<body>
+	<ul id="ul1">
+		<li>1111</li>
+		<li class="box1 box2">2222</li>
+		<li>3333</li>
+		<li class="box box1">4444</li>
+	</ul>
+	<ul id="ul2">
+		<li>1111</li>
+		<li class="box1 box2">2222</li>
+		<li>3333</li>
+		<li class="box box1">4444</li>
+	</ul>
+	<div class="box box1">div1</div>
+</body>
+</html>

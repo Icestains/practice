@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>分享到</title>
+	<style>
+	* { margin:0;padding:0; }
+	#da { width:100px;height:200px;background:red;position:relative;top:200px;left:-100px; }
+	#xiao { width:20px;height:60px;background:green;position:absolute;left:100px;top:70px; }
+	</style>
+	<script>
+	window.onload = function(){
+		var oDa = document.getElementById('da');
+
+		oDa.onmouseover = function(){
+			startMove(this, 0);
+		}
+		oDa.onmouseout = function(){
+			startMove(this, -100);
+		}
+	}
+
+	function startMove(obj, iTarget){
+		var iSpeed = obj.offsetLeft < iTarget ? 10 : -10;
+		clearInterval(obj.timer);
+
+		obj.timer = setInterval(function(){
+			if ( Math.abs(obj.offsetLeft - iTarget) < Math.abs(iSpeed) ) {//匀速运动：在一定范围内（小于一次运动的距离），即可视为到达目标
+				clearInterval(obj.timer);
+				obj.style.left = iTarget + 'px';
+			} else {
+				obj.style.left = obj.offsetLeft + iSpeed + 'px';
+			}
+		},30);
+	}
+	</script>
+</head>
+<body>
+	<div id="da">
+		<div id="xiao">分享到</div>
+	</div>
+</body>
+</html>

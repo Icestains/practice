@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>点击往下掉，再点击，再飘回来...一直循环</title>
+	<script src="./style/vslw.js"></script>
+	<script>
+	window.onload = function () {
+		var str = '';
+		var len = 20;
+		var aDiv = document.getElementsByTagName('div');
+		var timer = null;
+		var num = 0;
+		var dir = 0;
+
+		//生成10个div
+		for ( var i=0; i<len; i++ ) {
+			str += '<div style="width:50px; height:50px; background:red; position:absolute; top:0px; left:'+ i*60 +'px;"></div>';
+		}
+		document.body.innerHTML = str;
+
+		//点击事件
+		document.onclick = function () {
+			clearInterval( timer );
+			timer = setInterval( function (){
+
+				//依次让div运动起来
+				if(dir == 0){
+					doMove(aDiv[num],'top',23,500);
+				}else{
+					doMove(aDiv[num],'top',23,0);
+				}
+
+				num++;
+				if (num === len){	//当所有的div都运动完成后换一个方向，num重置为0，清除定时器
+					dir = ++dir%2;
+					num = 0;
+					clearInterval(timer);
+				}
+			}, 100 );
+		};
+	};
+	</script>
+
+</head>
+<body>
+</body>
+</html>

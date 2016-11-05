@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <style>
+            html,body,ul,li,h2 { margin:0;padding:0; }
+            li { list-style:none; }
+            #list { width:240px;position:relative;margin:10px auto;border:1px solid #333; }
+            #list h2 { height:30px;line-height:30px;text-indent:20px;background:url(img/ico1.gif) no-repeat 5px center #6FF; }
+            #list ul { display:none; }
+            #list ul li { width:240px;height:24px;line-height:24px;border-bottom:1px solid black;position:relative;text-indent:20px; }
+            #list .active { background:url(img/ico2.gif) no-repeat 5px center #FF9; }
+            #list .hover { background:#6FF; }
+        </style>
+        <script src="../../我的前端开发库/jquery.js"></script>
+        <script>
+            window.onload = function(){
+
+                //获取元素
+                var oUl = $('#list');
+                var aH2 = oUl.find('h2');
+                var aUl = oUl.find('ul');
+                var arrLi = $('li').find('li');
+
+                //h2点击
+                aH2.each(function(index,element){
+                    $(element).click(function(){
+                        aUl.each(function(index2){
+                            if( index2 != index ) {
+                                $(this).hide();
+                            } else {
+                                if ( $(this).css('display') == 'none' ) {
+                                    $(this).show();
+                                } else {
+                                    $(this).hide();
+                                }
+                            }
+                        });
+                        aH2.each(function(index2){
+                            if( index2 != index ) {
+                                $(this).removeClass('active');
+                            } else {
+                                if ( $(element).attr('class') == '' || $(element).attr('class') == undefined) {
+                                    $(this).addClass('active');
+                                } else {
+                                    $(this).removeClass('active');
+                                }
+                            }
+                        });
+                    });
+                });
+
+                //最低层li点击事件
+                arrLi.each(function(index,element){
+                    $(element).click(function(){
+                        arrLi.each(function(index2){
+                            if ( index2 != index ) {
+                                $(this).removeClass('hover');
+                            } else {
+                                if ( $(element).attr('class') == '' || $(element).attr('class') == undefined ) {
+                                    $(this).addClass('hover');
+                                } else {
+                                    $(this).removeClass('hover');
+                                }
+                            }
+                        });
+                    });
+                });
+
+            }
+        </script>
+    </head>
+    <body>
+        <ul id="list">
+
+            <li>
+                <h2>我的好友</h2>
+                <ul>
+                    <li>好友1</li>
+                    <li>好友2</li>
+                    <li>好友3</li>
+                    <li>好友4</li>
+                    <li>好友5</li>
+                </ul>
+            </li>
+
+            <li>
+                <h2>企业好友</h2>
+                <ul>
+                    <li>企业1</li>
+                    <li>企业2</li>
+                    <li>企业3</li>
+                    <li>企业4</li>
+                    <li>企业5</li>
+                    <li>企业6</li>
+                </ul>
+            </li>
+
+            <li>
+                <h2>黑名单</h2>
+                <ul>
+                    <li>小黑</li>
+                    <li>小红</li>
+                    <li>小蓝</li>
+                    <li>小白</li>
+                    <li>小明</li>
+                    <li>小刚</li>
+                </ul>
+            </li>
+
+        </ul>
+    </body>
+</html>

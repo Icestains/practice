@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>json形式的面向对象</title>
+	<script>
+	//json形式面向对象的优缺点
+	window.onload = function(){
+
+		//对象定义
+		var json = {
+			a:12,					//属性
+			b:15,
+			c:function(){			//方法
+				alert(this.a);
+			},
+			d:function(){
+				alert(this.b);
+			},
+		};
+
+		//测试
+		alert( json.a );
+		alert( json.b );
+		json.c();
+		json.d();
+
+	}
+	</script>
+</head>
+<body>
+</body>
+</html>

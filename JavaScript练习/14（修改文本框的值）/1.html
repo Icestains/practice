@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>修改文本框的值</title>
+	<style type="text/css">
+		body,dl,dd { margin:0;font-size:12px;font-family:"宋体"; }
+		img { border:none;vertical-align:top; }
+
+		.clear { zoom:1; }
+		.clear:after { content:"";display:block;clear:both; }
+
+		#list { width:569px;margin:30px auto; }
+		#list dt,#list dd { border-bottom:1px solid #bddede; }
+		#list dd { height:39px; }
+		#list strong { font-size:15px;color:white;background:#6ba542;display:block;line-height:28px;height:28px;text-indent:25px; }
+
+		.one span { font-size:15px;color:black;line-height:39px;height:39px;background:white;text-indent:25px;float:left; }
+		.one img { float:left;margin:10px 0 0 10px;cursor:pointer; }
+
+		.two input { height:26px;border:1px solid green;margin:5px 0 0 25px; }
+		.two span { display:inline-block;width:48px;height:24px;line-height:24px;text-align:center;color:green;cursor:pointer; }
+		.two span:hover { color:white;background:green; }
+		.two { display:none; }
+	</style>
+	<script type="text/javascript">
+	window.onload = function(){
+		var oList = document.getElementById('list');
+		var aDd = oList.getElementsByTagName('dd');
+
+		for( var i=0;i<aDd.length;i++ ){
+			fun( aDd[i] );
+		}
+
+		function fun ( obj ) {
+			var aDiv = obj.getElementsByTagName('div');
+			var oOneSpan = aDiv[0].getElementsByTagName('span')[0];
+			var oOneImg = aDiv[0].getElementsByTagName('img')[0];
+			var oTwoInp = aDiv[1].getElementsByTagName('input')[0];
+			var aTwoSpan = aDiv[1].getElementsByTagName('span');
+
+			oOneImg.onclick = function(){								//点击图片切换到输入状态
+				aDiv[0].style.display = 'none';
+				aDiv[1].style.display = 'block';
+			}
+
+			aTwoSpan[1].onclick = function(){							//点击取消切换到初始状态
+				aDiv[0].style.display = 'block';
+				aDiv[1].style.display = 'none';
+			}
+
+			aTwoSpan[0].onclick = function(){							//点击保存，切换到初始状态并更换其中的文字
+				oOneSpan.innerHTML = oTwoInp.value;
+				aDiv[0].style.display = 'block';
+				aDiv[1].style.display = 'none';
+			}
+		}
+	}
+	</script>
+</head>
+<body>
+<dl id="list">
+	<dt>
+		<strong>分类名称</strong>
+	</dt>
+	<dd>
+		<div class="one clear">
+			<span class="a">我的好友</span>
+			<img src="./img/1.png" />
+		</div>
+		<div class="two clear">
+			<input type="text" />
+			<span>保存</span>
+			<span>取消</span>
+		</div>
+	</dd>
+	<dd>
+		<div class="one clear">
+			<span class="a">我的坏友</span>
+			<img src="./img/1.png" />
+		</div>
+		<div class="two clear">
+			<input type="text" />
+			<span>保存</span>
+			<span>取消</span>
+		</div>
+	</dd>
+	<dd>
+		<div class="one clear">
+			<span class="a">我的朋友</span>
+			<img src="./img/1.png" />
+		</div>
+		<div class="two clear">
+			<input type="text" />
+			<span>保存</span>
+			<span>取消</span>
+		</div>
+	</dd>
+	<dd>
+		<div class="one clear">
+			<span class="a">黑名单</span>
+			<img src="./img/1.png" />
+		</div>
+		<div class="two clear">
+			<input type="text" />
+			<span>保存</span>
+			<span>取消</span>
+		</div>
+	</dd>
+	<dd>
+		<div class="one clear">
+			<span class="a">白名单</span>
+			<img src="./img/1.png" />
+		</div>
+		<div class="two clear">
+			<input type="text" />
+			<span>保存</span>
+			<span>取消</span>
+		</div>
+	</dd>
+</dl>
+</body>
+</html>

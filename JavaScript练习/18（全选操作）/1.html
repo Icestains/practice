@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>全选操作</title>
+	<style>
+	body { margin:0;font-size:16px;font-family:"宋体"; }
+	ul { margin:0;padding:0;list-style:none; }
+	input { margin:0; }
+
+	#box { width:500px;margin:30px auto; }
+
+	#list { width:500px;border-bottom:1px solid #dedede; }
+	#list li { height:24px;line-height:24px;margin-top:2px; }
+	#list .active { background:#efefef; }
+	#list input { margin:0 10px; }
+	#list em { float:right;width:200px;font-style:normal; }
+
+	#checkAll { margin:10px; }
+	</style>
+	<script>
+	window.onload = function () {
+		var oList = document.getElementById('list');
+		var aLiList = oList.getElementsByTagName('li');
+		var aInpList = oList.getElementsByTagName('input');
+		var oCheckAll = document.getElementById('checkAll');
+
+		oCheckAll.onclick = function () {							//点击全选，选中所有
+			if ( this.checked ) {									//如果全选已经被选了,则所有的全选中
+				for ( var i=0;i<aInpList.length;i++ ) {
+					aInpList[i].checked = true;
+					aLiList[i].className = 'active';
+				}
+			} else {												//全选没被选，再点一下的情况下，全选
+				for ( var i=0;i<aInpList.length;i++ ) {
+					aInpList[i].checked = false;
+					aLiList[i].className = '';
+				}
+			}
+		}
+
+		for ( var i=0;i<aInpList.length;i++ ) {
+			aInpList[i].index = i;
+
+			aInpList[i].onclick = function () {
+
+				if ( this.checked ) {
+					aLiList[this.index].className = 'active';
+				} else {
+					aLiList[this.index].className = '';
+				}
+
+				for ( var i=0;i<aInpList.length;i++ ) {
+					if ( !aInpList[i].checked ) break;
+				}
+
+				if ( i == aInpList.length ) {							//所有的全被选中了，将全选勾选上
+					oCheckAll.checked = true;
+				} else {												//存在没有被选中的，全选不能被勾选上
+					oCheckAll.checked = false;
+				}
+
+			}
+		}
+	}
+	</script>
+</head>
+<body>
+	<div id="box">
+		<ul id="list">
+			<li><input type="checkbox" /><span>私奔</span><em>梁博</em></li>
+			<li><input type="checkbox" /><span>北京</span><em>梁博，黄勇</em></li>
+			<li><input type="checkbox" /><span>我爱你中国</span><em>梁博</em></li>
+			<li><input type="checkbox" /><span>花火</span><em>梁博</em></li>
+			<li><input type="checkbox" /><span>回来</span><em>梁博</em></li>
+			<li><input type="checkbox" /><span>爱要有你才完美</span><em>梁博，那英</em></li>
+		</ul>
+		<input type="checkbox" id="checkAll" /><label for="checkAll">全选</label>
+	</div>
+</body>
+</html>

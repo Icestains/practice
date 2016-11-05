@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <style>
+            #box{
+                width:300px;
+                height:500px;
+                border:10px solid black;
+                margin:20px auto 0;
+                position:relative;
+            }
+            #div{
+                width:300px;
+                height:450px;
+                border-bottom:2px solid #1f1f1f;
+                overflow-y:auto;
+            }
+            #img{
+                position:absolute;
+                bottom:12px;
+                left:14px;
+            }
+            #text{
+                position:absolute;
+                left:60px;
+                bottom:14px;
+            }
+            #btn{
+                position:absolute;
+                right:20px;
+                bottom:14px;
+            }
+            #box span{
+                padding:6px 6px;
+            }
+            .green{
+                background:rgb(33,198,24);
+            }
+            .gray{
+                background:rgb(222,214,231);
+            }
+            .haha{
+                margin:10px 0;
+            }
+        </style>
+        <script src="../../我的前端开发库/jquery.js"></script>
+    </head>
+    <body>
+    <div id="box">
+        <div id="div" class="right">
+        </div>
+        <img id="img" src="img/1.png" />
+        <input id="text" type="text" />
+        <input id="btn" type="button" value="发送" />
+    </div>
+    <script type="text/javascript">
+        window.onload = function(){
+            var cnt = 1;
+            var color;
+
+            //点击图片更换头像
+            $('#img').click(function(){
+            	if ( cnt == 1 ) {
+            		$('#img').attr('src', 'img/2.png');
+            		cnt++;
+            	} else {
+            		$('#img').attr('src', 'img/1.png');
+            		cnt--;
+            	}
+            });
+
+            //点击发送
+            $('#btn').click(function(){
+            	if ( $('#text').val() == '' ) {
+            		alert('请输入');
+            	} else {
+            		color = cnt == 1 ? 'gray' : 'green';
+            		$('#div').html( '<div class="hahha"><br />' + '<img src="' + $('#img').attr('src') + '"><span class="'+ color +'">'+ $('#text').val() +'</span></div>'+ $('#div').html() );
+            		$('#text').val('');
+            	}
+            });
+        }
+
+    </script>
+    </body>
+</html>

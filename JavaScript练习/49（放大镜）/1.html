@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>放大镜</title>
+	<link rel="stylesheet" href="style/reset.css" />
+	<style>
+	body { background:#ccc; }
+
+	#div1 { width:400px;height:225px;position:relative;top:20px;left:20px; }
+	#div1 .smallPic { width:400px;height:225px;position:relative; }
+	#div1 .floatLayer { width:100px;height:100px;background:rgba(255,255,255,0.5);position:absolute;top:0px;left:0px;display:none;cursor:crosshair; }
+	#div1 .bigPic { width:300px;height:300px;position:absolute;top:0;left:450px;overflow:hidden;display:none; }
+	#div1 .bigPic img { position:absolute;left:0px;top:0px; }
+	</style>
+	<script src="style/vslw.js"></script>
+	<script>
+	/* 有bug，并不是严格意义上的放大镜（并不只是放大选中区域），目前解决办法：放大区域的比例 与 大图、小图的比列 保持一致 */
+	function magnifier(parent,oSmall,oFloat,oBig,oImgBig){
+		oSmall.onmouseover = function(){
+			oFloat.style.display = 'block';
+			oBig.style.display = 'block';
+		}
+
+		oSmall.onmouseout = function(){
+			oFloat.style.display = 'none';
+			oBig.style.display = 'none';
+		}
+
+		oSmall.onmousemove = function(ev){
+			var ev = ev || event;
+
+			var maxTop = oSmall.offsetHeight - oFloat.offsetHeight;
+			var maxLeft = oSmall.offsetWidth - oFloat.offsetWidth;
+
+			var l = ev.clientX - parent.offsetLeft - oFloat.offsetWidth/2;
+			var t = ev.clientY - parent.offsetTop - oFloat.offsetHeight/2;
+
+			//范围限制
+			if( l < 0) {
+				l = 0;
+			}
+			if( l > maxLeft ) {
+				l = maxLeft;
+			}
+			if( t < 0 ) {
+				t = 0;
+			}
+			if( t > maxTop ) {
+				t = maxTop;
+			}
+
+			//浮动层跟随鼠标
+			oFloat.style.left = l + 'px';
+			oFloat.style.top = t + 'px';
+
+			//比例
+			var percentX = l / maxLeft;
+			var percentY = t / maxTop;
+
+			//大图位置改变
+			oImgBig.style.left = percentX * ( oBig.offsetWidth - oImgBig.offsetWidth ) + 'px';
+			oImgBig.style.top = percentY * ( oBig.offsetHeight - oImgBig.offsetHeight ) + 'px';
+		}
+	}
+
+	window.onload = function(){
+		var oDiv = $('div1');
+		var oSmall = getElementsByClassName(oDiv,'div','smallPic')[0];
+		var oFloat = getElementsByClassName(oDiv,'span','floatLayer')[0];
+		var oBig = getElementsByClassName(oDiv,'div','bigPic')[0];
+		var oImgBig = oBig.getElementsByTagName('img')[0];
+
+		magnifier(oDiv,oSmall,oFloat,oBig,oImgBig);
+	}
+	</script>
+</head>
+<body>
+	<div id="div1">
+		<div class="smallPic">
+			<span class="floatLayer"></span>
+			<img src="img/small.jpg" />
+		</div>
+		<div class="bigPic">
+			<img src="img/big.jpg" />
+		</div>
+	</div>
+</body>
+</html>

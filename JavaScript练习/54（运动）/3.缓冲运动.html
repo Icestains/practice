@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>缓冲运动</title>
+	<style>
+	body { height:2000px; }
+	div { width:100px;height:100px;background:red;position:absolute;left:0; }
+	</style>
+	<script>
+	window.onload = function(){
+		var oDiv = document.getElementsByTagName('div')[0];
+
+		window.onscroll = function(){
+			var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+			var t = scrollTop + (document.documentElement.clientHeight - oDiv.offsetHeight)/2;
+			startMove(oDiv, t);
+		}
+	}
+
+	function startMove(obj,iTarget){
+		iTarget = parseInt(iTarget);//取整，避免尝试抖动
+		clearInterval(obj.timer);
+
+		obj.timer = setInterval(function(){
+			var iSpeed = (iTarget - obj.offsetTop) / 8;
+			iSpeed = iSpeed > 0 ? Math.ceil(iSpeed) : Math.floor(iSpeed);//取整，避免产生小于1像素的，导致无法移动，定时器也不能关闭
+			if ( obj.offsetTop == iTarget ) {//缓冲运动：两个值相等
+				clearInterval(obj.timer);
+			} else {
+				obj.style.top = obj.offsetTop + iSpeed + 'px';
+				console.log(obj.style.top)
+			}
+		},30);
+	}
+	</script>
+</head>
+<body>
+	<div></div>
+</body>
+</html>

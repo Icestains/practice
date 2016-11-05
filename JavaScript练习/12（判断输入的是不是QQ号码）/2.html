@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>判断QQ号</title>
+<style type="text/css">
+	span { color:red; }
+</style>
+<script type="text/javascript">
+	window.onload = function(){
+		var oText = document.getElementById('text');
+		var oBtn = document.getElementById('btn');
+		var oSpan = document.getElementsByTagName('span')[0];
+
+		oBtn.onclick = function(){
+
+			var str = oText.value;
+
+			if(str == ''){															//没有输入的情况
+				oSpan.innerHTML = '没有输入';
+			}else{																	//输入了的情况
+				//判断输入的是不是数字
+				//如果输入的是数字并且输入不为空（输入为空时用isNaN()判断为数字）
+				if( (!isNaN(str)) && (str !== '') ){								//输入的是数字的情况
+					//不能有0在前面
+					for(var i=0;i<str.length;i++){
+						if( str.charAt(i) != '0' ){									//遇到非0的数字
+							//不能是小数
+							for(var j=0;j<str.length;j++){
+								if( isNaN(str.charAt(j)) ){
+									oSpan.innerHTML = '不能输入小数';
+									return;
+								}
+							}
+
+							if(str.length >=5 && str.length<=10){
+								oSpan.innerHTML = '输入成功';
+							}else{
+								oSpan.innerHTML = '输入长度不合法，请控制在5~10之间';
+							}
+
+							return;
+						}
+						if( str.charAt(i) == '0' ){									//只要遇到一个0就退出循环，并提示前面不能为0
+							oSpan.innerHTML = '前面不能为0';
+							return;
+						}
+					}
+				}else{																//输入的不是数字的情况
+					oSpan.innerHTML = '输入的不是数字';
+				}
+			}
+		}
+	}
+</script>
+</head>
+
+<body>
+
+请输入QQ号码：<input type="text" id="text" />
+<input type="button" value="判断" id="btn" />
+<span></span>
+
+
+<br />
+1、有没有输入<br />
+2、输入的是不是数字<br />
+3、不能有0在前面<br />
+4、不能是小数<br />
+5、输入的数字必须在5位以上、10位以内<br />
+
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <style>
+            #box{
+                width:300px;
+                height:500px;
+                border:10px solid black;
+                margin:20px auto 0;
+                position:relative;
+            }
+            #div{
+                width:300px;
+                height:450px;
+                border-bottom:2px solid #1f1f1f;
+                overflow-y:auto;
+            }
+            #img{
+                position:absolute;
+                bottom:12px;
+                left:14px;
+            }
+            #text{
+                position:absolute;
+                left:60px;
+                bottom:14px;
+            }
+            #btn{
+                position:absolute;
+                right:20px;
+                bottom:14px;
+            }
+            #box span{
+                padding:6px 6px;
+            }
+            .green{
+                background:rgb(33,198,24);
+            }
+            .gray{
+                background:rgb(222,214,231);
+            }
+            .haha{
+                margin:10px 0;
+            }
+        </style>
+    </head>
+    <body>
+    <div id="box">
+        <div id="div" class="right">
+        </div>
+        <img id="img" src="img/1.png" />
+        <input id="text" type="text" />
+        <input id="btn" type="button" value="发送" />
+    </div>
+    <script type="text/javascript">
+        window.onload = function(){
+            var oImg = document.getElementById('img');
+            var oDiv = document.getElementById('div');
+            var oText = document.getElementById('text');
+            var oBtn = document.getElementById('btn');
+            var cnt = 1;
+            var color;
+            oImg.onclick = function(){
+                if(cnt==1){
+                    oImg.src = 'img/2.png';
+                    cnt++;
+                }else{
+                    oImg.src = 'img/1.png';
+                    cnt--
+                }
+            }
+            oBtn.onclick = function(){
+                if(oText.value == ''){
+                    alert('请输入');
+                }else{
+                    if(cnt==1){
+                        color = 'gray';
+                    }else{
+                        color = 'green';
+                    }
+                    oDiv.innerHTML = '<div class="hahha"><br />' + '<img src="' + oImg.src + '"><span class="'+ color +'">'+ oText.value +'</span></div>'+ oDiv.innerHTML;
+                    oText.value = '';
+                }
+            }
+        }
+        
+    </script>
+    </body>
+</html>

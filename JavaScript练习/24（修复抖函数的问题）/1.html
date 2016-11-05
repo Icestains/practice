@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<style>
+img { width:100px; height:100px; position:absolute; top:200px; }
+</style>
+<script type="text/javascript" src="./style/vslw.js"></script>
+<script>
+
+window.onload = function () {
+	var aImg = document.getElementsByTagName('img');
+
+	for ( var i=0; i<aImg.length; i++ ) {
+		aImg[i].style.left = 80+i*110 + 'px';
+
+		//鼠标移入为每张图片添加抖动函数
+		aImg[i].onmouseover = function () {
+			shake( this, 'top' );
+		};
+	}
+};
+</script>
+
+</head>
+
+<body>
+
+<img src="img/1.jpg" />
+<img src="img/2.jpg" />
+<img src="img/3.jpg" />
+<img src="img/4.jpg" />
+<img src="img/5.jpg" />
+<img src="img/6.jpg" />
+<img src="img/7.jpg" />
+<img src="img/8.jpg" />
+
+</body>
+</html>

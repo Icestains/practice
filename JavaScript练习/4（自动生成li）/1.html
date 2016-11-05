@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <style>
+            html,body,input,ul,li{
+                padding:0;
+                margin:0;
+            }
+            input{
+                margin:10px 0 0 10px;
+                padding:3px 6px;
+            }
+            li{
+                width:80px;
+                height:80px;
+                float:left;
+                list-style:none;
+                margin-left:10px;
+                margin-top:10px;
+                /* background:red; */
+                line-height:80px;
+                text-align:center;
+                font-size:40px;
+            }
+        </style>
+        <script>
+            window.onload = function(){
+
+
+                var oBtn = document.getElementsByTagName('input')[0];
+                var oUl = document.getElementsByTagName('ul')[0];
+                var aColor = ['red','yellow','blue','green'];
+                var str = '';
+                var kedian = true;
+                var aLi = oUl.getElementsByTagName('li');
+                var j = 0;
+
+
+                oBtn.onclick = function(){
+                    if(kedian){
+                        for(var i=0;i<10;i++){
+                            str += '<li>' + i + '</li>';
+                        }
+                        oUl.innerHTML = str;
+                        var aLiLen = aLi.length;
+                        for(var i=0;i<aLiLen;i++){
+                            if(j==4){
+                                j = 0;
+                            }
+                            aLi[i].style.cssText = 'background-color:' + aColor[j++] + ';';
+                        }
+                        kedian = false;
+                    }
+                }
+
+
+
+            }
+        </script>
+    </head>
+    <body>
+        <input type="button" value="点击生成10个li" />
+        <ul>
+        </ul>
+    </body>
+</html>

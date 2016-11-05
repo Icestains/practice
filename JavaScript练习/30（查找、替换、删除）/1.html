@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>查找、替换、删除</title>
+	<link rel="stylesheet" href="style/reset.css" />
+	<style>
+	body { background:rgb(239,239,231); }
+	#box { margin:30px auto;width:635px; }
+
+	#content p { width:460px;height:210px;background:white;padding:20px;font-size:16px;line-height:30px;float:left; }
+	#content p span { background:yellow; }
+
+	#sideBar { float:right; }
+	#sideBar li { width:80px;height:40px;background:#94948c;text-align:center;line-height:40px;color:white;margin-bottom:1px;font-size:17px;cursor:pointer;display:none; }
+	#sideBar .zhanKai { display:block; }
+	#sideBar .zhanKai:hover { background:#808080; }
+	#sideBar li:hover { background:#e76308; }
+
+	#div { display:none;width:460px;height:106px;border:10px solid #e71063;margin-top:12px;padding:20px 20px 0;position:relative;background:rgb(231,231,181); }
+
+	#top { border-bottom:2px solid #e73100; }
+	#top li { float:left;width:78px;height:32px;line-height:32px;text-align:center;font-size:16px;cursor:pointer; }
+	#top .active { background:#e73100;color:white; }
+
+	#div span { position:absolute;right:12px;top:12px;font-size:14px;cursor:pointer; }
+	#div .chaZhao,#div .tiHuan { margin:22px 0 0; }
+	#div .shuRu { height:26px; }
+	#div .btn { height:30px;padding:2px; }
+	#div .chaZhao { display:block; }
+	#div .tiHuan { display:none; }
+	</style>
+	<script src="style/vslw.js"></script>
+	<script>
+	window.onload = function(){
+		var oP = document.getElementsByTagName('p')[0];
+		var oSideBar = $('sideBar');
+		var aLiSideBar = oSideBar.getElementsByTagName('li');
+		var oDiv = $('div');
+		var oTop = $('top');
+		var aLiTop = oTop.getElementsByTagName('li');
+		var oSpan = oDiv.getElementsByTagName('span')[0];
+		var aDiv = oDiv.getElementsByTagName('div');
+
+		var onOff = true;
+		var text = oP.innerHTML;
+
+		//侧边栏，点击展开，文字变成收缩，再点隐藏
+		aLiSideBar[0].onclick = function() {
+			if( onOff ) {
+				sideBarShow();
+			} else {
+				sideBarHidden();
+			}
+			onOff = !onOff;
+		}
+
+		function sideBarShow() {
+			aLiSideBar[0].innerHTML = '收缩';
+			for( var i=1;i<aLiSideBar.length;i++ ){
+				aLiSideBar[i].style.display = 'block';
+			}
+		}
+		function sideBarHidden() {
+			aLiSideBar[0].innerHTML = '展开';
+			for( var i=1;i<aLiSideBar.length;i++ ){
+				aLiSideBar[i].style.display = 'none';
+			}
+		}
+
+		//侧边栏点击效果
+		aLiSideBar[1].onclick = function() {
+			sideBarHidden();
+			oDiv.style.display = 'block';
+			chaZhaoShow();
+		}
+		aLiSideBar[2].onclick = function() {
+			sideBarHidden();
+			oDiv.style.display = 'block';
+			tiHuanShow();
+		}
+
+		aLiTop[0].onclick = chaZhaoShow;
+		aLiTop[1].onclick = tiHuanShow;
+
+		function chaZhaoShow(){
+			aDiv[0].style.display = 'block';
+			aDiv[1].style.display = 'none';
+			aLiTop[0].className = 'active';
+			aLiTop[1].className = '';
+		}
+		function tiHuanShow(){
+			aDiv[0].style.display = 'none';
+			aDiv[1].style.display = 'block';
+			aLiTop[0].className = '';
+			aLiTop[1].className = 'active';
+		}
+
+		//点X底部区域关闭效果
+		oSpan.onclick = function(){
+			oDiv.style.display = 'none';
+		}
+
+		//查找
+		chaZhao(aDiv[0], oP, text);
+		function chaZhao(obj, obj2, text){
+			var aInp = obj.getElementsByTagName('input');
+			aInp[1].onclick = function(){
+				var str = aInp[0].value;
+				if( str == '' ) {
+					alert('请输入查找的内容');
+				} else {
+					var temp = text.split(str);
+					if ( temp.length == 1 ) {
+						alert('对不起，没有找到你输入的内容：【' + str + '】');
+					} else {
+						obj2.innerHTML = temp.join('<span>' + str + '</span>');
+					}
+				}
+			}
+		}
+
+		//替换
+		tiHuan(aDiv[1], oP, text);
+		function tiHuan( obj, obj2, text ) {
+			var aInp = obj.getElementsByTagName('input');
+			aInp[2].onclick = function(){
+				var str = aInp[0].value;
+				var newStr = aInp[1].value;
+				if ( str == '' ) {
+					alert('请输入要替换的内容');
+				} else {
+					var temp = text.split(str);
+					if( temp.length == 1 ) {
+						alert('对不起，没有找到你输入的内容：【' + str + '】');
+					} else {
+						obj2.innerHTML = temp.join('<span>' + newStr + '</span>');
+						text = obj2.innerHTML;
+					}
+				}
+			}
+
+		}
+
+	}
+	</script>
+</head>
+<body>
+<div id="box">
+	<div id="content" class="clear">
+		<p>
+			妙味课堂是一支充满温馨并且极富人情味的IT培训团队；2010~2011年，妙味深度关注WEB前端开发领域，为此精心研发出一套灵活而充满趣味的JavaScript课程。2011~2013年，妙味精准研发出最新的HTML5/CSS3课程，并推出远程培训课程方案，尝试将线下优良的培训模式移植到远程网络培训中，希望尽最大的努力，将一种快乐愉悦的授课体验、结合HTML\CSS\JS知识点，精准传递给妙味课堂的每一位学员。
+		</p>
+		<ul id="sideBar">
+			<li class="zhanKai">展开</li>
+			<li>查找</li>
+			<li>替换</li>
+		</ul>
+	</div>
+
+	<div id="div">
+		<ul id="top" class="clear">
+			<li class="active">查找</li>
+			<li>替换</li>
+		</ul>
+		<span>X</span>
+		<div class="chaZhao">
+			<input type="text" class="shuRu">
+			<input type="button" value="查找" class="btn">
+		</div>
+		<div class="tiHuan">
+			<input type="text" class="shuRu">
+			<input type="text" class="shuRu">
+			<input type="button" value="替换" class="btn">
+		</div>
+	</div>
+</div>
+</body>
+</html>

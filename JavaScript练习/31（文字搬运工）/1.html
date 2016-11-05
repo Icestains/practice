@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>文字搬运工</title>
+	<link rel="stylesheet" href="style/reset.css" />
+	<style>
+	body { background:#e7eff7;font-size:16px; }
+
+	#box { margin:30px auto 0;width:780px;height:222px;padding:10px 10px 8px;border:10px solid #c0c0c0; }
+
+	textarea { border:1px dotted black;float:left;width:300px;height:200px;background:#efefd6;outline:none;font-size:16px;padding:10px; }
+
+	#center { float:left;margin:0 8px;text-align:center; }
+	#center a { display:block;width:120px;height:40px;background:#f76300;color:white;line-height:40px; }
+	#center a:hover { background:#c63908; }
+	#center .btn { background:#e7cece; }
+	#center span { display:block;text-align:center;margin-top:10px; }
+	#center ul { display:inline-block;margin-top:10px;opacity:0; }
+	#center li { float:left;width:8px;height:10px;background:#e7a521;margin-right:2px; }
+	#center .active { background:#ff0000; }
+
+	#right { float:right;border:1px dotted black;width:300px;height:200px;background:#63eff7;padding:10px;font-size:16px; }
+	</style>
+	<script src="style/vslw.js"></script>
+	<script>
+	window.onload = function(){
+		var oText = document.getElementsByTagName('textarea')[0];
+		var oCenter = $('center');
+		var oRight = $('right');
+		var oACenter = oCenter.getElementsByTagName('a')[0];
+		var oSpanCenter = oCenter.getElementsByTagName('span')[0];
+		var oUlCenter = oCenter.getElementsByTagName('ul')[0];
+		var aLiUl = oUlCenter.getElementsByTagName('li');
+		var onOff = true;
+
+		oACenter.onclick = function(){
+			console.log(onOff)
+			if (onOff) {
+				var textArr = oText.value.split('');
+				if (textArr.length == 0) {alert('请输入内容');return;}
+				onOff = false;
+				var timer = null;
+				var num = 0;
+				var len = textArr.length;
+				oRight.innerHTML = '';
+				oUlCenter.style.display = 'inline-block';
+				opacity(oUlCenter, 1);
+				loading();
+				timer = setInterval(function(){
+					if ( textArr.length == 1 ) clearInterval(timer);	//当输入框里只剩一个字时清除定时器
+					oRight.innerHTML += textArr.shift();				//将输入框文字的数组里的第一个字移除到右边
+					oText.value = textArr.join('');					//将输入框文字数组重新组合成字符串，内容写到输入框里
+					oSpanCenter.innerHTML = ++num + '/' + len;
+
+					if( num == len ) {
+						opacity(oUlCenter, 0);
+						onOff = true;
+					}
+				}, 50);
+			}
+			
+			
+			//console.log(oText.value.split(''))
+		};
+
+		function loading(){
+			var loading = null;
+			var num = 0;
+			loading = setInterval( function(){
+				for(var i=0;i<aLiUl.length;i++){
+					aLiUl[i].className = '';
+				}
+				aLiUl[++num % aLiUl.length].className = 'active';
+			}, 50);
+		}
+		
+
+	}
+	</script>
+</head>
+<body>
+	<div id="box" class="clear">
+		<textarea cols="30" rows="10">妙味课堂是一支充满温馨并且极富人情味的IT培训团队；2010~2011年，妙味深度关注WEB前端开发领域，为此精心研发出一套灵活而充满趣味的JavaScript课程。2011~2013年，妙味精准研发出最新的HTML5/CSS3课程，并推出远程培训课程方案，</textarea>
+		<div id="center">
+			<a href="javascript:;">把文字右移</a>
+			<span>0/0</span>
+			<ul class="clear">
+				<li class="active"></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+		</div>
+		<p id="right"></p>
+	</div>
+</body>
+</html>

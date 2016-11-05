@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>拖拽回放</title>
+	<style>
+	input {  }
+	div { width:100px;height:100px;background:red;position:absolute; }
+	</style>
+	<script>
+	window.onload = function(){
+		var oInput = document.getElementsByTagName('input')[0];
+		var oDiv = document.getElementById('div1');
+		var data = {
+			'left':[],
+			'top':[]
+		};
+
+		oDiv.onmousedown = function(ev){
+			var ev = ev || event;
+
+			recordPosition(this,data);//记录初始位置
+
+			var disX = ev.clientX - this.offsetLeft;
+			var disY = ev.clientY - this.offsetTop;
+
+			document.onmousemove = function(ev){
+				var ev = ev || event;
+
+				//每次移动之前记录上一次的位置
+				recordPosition(oDiv,data);
+
+				oDiv.style.left = ev.clientX - disX + 'px';
+				oDiv.style.top = ev.clientY - disY + 'px';
+
+			}
+
+			document.onmouseup = function(){
+				document.onmousemove = document.onmouseup = null;
+			}
+
+			return false;
+		}
+
+		oInput.onclick = function(){
+			var timer = null;
+			timer = setInterval(function(){
+				oDiv.style.left = data['left'][data['left'].length - 1] + 'px';
+				oDiv.style.top = data['top'][data['top'].length - 1] + 'px';
+				data['left'].pop();
+				data['top'].pop();
+				if( data['left'].length == 0 ) clearInterval(timer);
+			}, 30);
+		}
+
+		function recordPosition(obj,data){
+			data['left'].push(obj.offsetLeft);
+			data['top'].push(obj.offsetTop);
+		}
+	}
+	</script>
+</head>
+<body>
+	<input type="button" value="回放" />
+	<div id="div1"></div>
+</body>
+</html>

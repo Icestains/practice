@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>点击加分效果</title>
+	<link rel="stylesheet" type="text/css" href="style/reset.css" />
+	<style type="text/css">
+	#box { margin:400px auto;position:relative;width:402px; }
+	span { width:0;background:rgb(90,247,239);position:absolute;left:1px;top:1px;display:block;height:40px; }
+	ul { width:400px;margin:400px auto;border:1px solid black;position:relative;height:40px; }
+	li { float:left;width:20px;line-height:20px;font-size:20px;padding:10px;position:relative;top:0px; }
+	</style>
+	<script type="text/javascript" src="style/vslw.js"></script>
+	<script type="text/javascript">
+	window.onload = function() {
+		var oUl = document.getElementsByTagName('ul')[0];
+		var aLiUl = oUl.getElementsByTagName('li');
+		var oSpan = document.getElementsByTagName('span')[0];
+		var timer = null;
+		var num = 0;
+
+		for ( var i=0;i<aLiUl.length;i++ ) {
+			aLiUl[i].index = i;
+		}
+
+		oUl.onclick = function() {
+
+			doMove(oSpan,'width',10,400,function(){
+				opacity(oSpan,0,function(obj){
+					obj.style.width = '0';				//span在宽度到达400，并且透明度达到0时将其宽度重置为0,透明度变回1
+					obj.style.opacity = '1';
+				});
+			});
+
+			clearInterval(timer);
+			timer = setInterval(function(){
+				doMove(aLiUl[num],'top',10,-150);		//li向上运动
+				opacity(aLiUl[num],0,function(obj){		//li透明度改变
+					obj.style.top = '0';				//透明度改变为0后继续回到原来的位置
+					if ( obj.index == aLiUl.length-1 ) {
+						for ( var i=0;i<aLiUl.length;i++ ){
+							opacity(aLiUl[i],1);
+						}
+					}
+				});
+				num++;
+				if (num>=aLiUl.length){
+					clearInterval(timer);
+					num = 0;
+				}
+			}, 250);
+		}
+	}
+	</script>
+</head>
+<body>
+	<div id="box">
+		<span></span>
+		<ul class="clear">
+			<li>+1</li>
+			<li>+1</li>
+			<li>+1</li>
+			<li>+1</li>
+			<li>+1</li>
+			<li>+1</li>
+			<li>+1</li>
+			<li>+1</li>
+			<li>+1</li>
+			<li>+1</li>
+		</ul>
+	</div>
+</body>
+</html>

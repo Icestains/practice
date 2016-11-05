@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>浮动布局转定位布局</title>
+	<style>
+	#content { width:366px;margin:30px auto;position:relative;border:1px solid black; }
+	#content div { width:100px;height:100px;background:red;margin:10px;float:left;border:1px solid black; }/* 浮动布局 */
+	</style>
+	<script src="move.js"></script>
+	<script>
+	window.onload = function(){
+		var oContent = document.getElementById('content');
+		var aDiv = oContent.getElementsByTagName('div');
+		var minZIndex = 1;
+
+		//先记录left、top值
+		for ( var i=0;i<aDiv.length;i++ ) {
+			aDiv[i].style.left = aDiv[i].offsetLeft + 'px';
+			aDiv[i].style.top = aDiv[i].offsetTop + 'px';
+		}
+
+		//再转成定位布局，清margin
+		for ( var i=0;i<aDiv.length;i++ ) {
+			aDiv[i].style.position = 'absolute';
+			aDiv[i].style.margin = '0px';
+		}
+
+		//加事件
+		for ( var i=0;i<aDiv.length;i++ ) {
+			aDiv[i].onmouseover = function(){
+				this.style.zIndex = minZIndex++;//更改层级
+				startMove(this, { 'width':'200','height':'200','marginTop':'-50','marginLeft':'-50' });
+			}
+			aDiv[i].onmouseout = function(){
+				startMove(this, { 'width':'100','height':'100','marginTop':'0','marginLeft':'0' });
+			}
+		}
+	}
+	</script>
+</head>
+<body>
+	<div id="content" class="clear">
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+	</div>
+</body>
+</html>

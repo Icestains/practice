@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>留言本，限制条数</title>
+	<script>
+	window.onload = function () {
+		var aInput = document.getElementsByTagName('input');
+		var oUl = document.getElementById('ul');
+
+		aInput[1].onclick = function(){
+			var oLi = document.createElement('li');
+			oLi.innerHTML = aInput[0].value;
+			aInput[0].value = '';//清除输入框里面的内容
+
+			//往ul中添加li，兼容ie的处理
+			if ( oUl.children[0] ) {
+				oUl.insertBefore( oLi, oUl.children[0] );
+			} else {
+				oUl.appendChild( oLi );
+			}
+
+			//如果长度大于5的话，删除最后一条
+			if ( oUl.children.length > 5 ) {
+				oUl.removeChild( oUl.lastChild );
+			}
+		}
+	}
+	</script>
+</head>
+<body>
+	<input type="text" />
+	<input type="button" value="按钮" />
+	<ul id="ul"></ul>
+</body>
+</html>

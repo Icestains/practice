@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>模拟select-多选</title>
+	<style>
+	* { margin:0;padding:0; }
+	div { width:300px;height:30px;border:1px solid rgb(255,159,0);margin:10px 0 0 10px;outline:none;font-size:16px;line-height:30px; }
+	ul { width:300px;margin:0 0 0 10px;border:1px solid rgb(255,159,0);border-top-width:0;display:none; }
+	li { line-height:30px;height:30px;font-size:16px;cursor:pointer; }
+	li.active,li:hover { color:white;background:rgb(255,159,0); }
+	</style>
+	<script>
+	window.onload = function(){
+		var oDiv = document.getElementsByTagName('div')[0];
+		var oUl = document.getElementsByTagName('ul')[0];
+		var aLi = document.getElementsByTagName('li');
+
+		oDiv.onclick = function(ev){
+			ev.cancelBubble = true;//阻止冒泡
+			oUl.style.display = 'block';
+		}
+
+		//点击文档任意处隐藏ul
+		document.onclick = function(){
+			oUl.style.display = 'none';
+		}
+
+		//循环为每个li添加点击事件
+		for ( var i=0;i<aLi.length;i++ ) {
+			var arr = [];
+			aLi[i].onclick = function(ev){
+				var ev = ev || event;
+
+				if ( ev.ctrlKey || ev.shiftKey ) {//按住了ctrl或shift的情况
+					ev.cancelBubble = true;//阻止冒泡
+
+					for( var i=0;i<arr.length;i++ ) {
+						if( arr[i] == this.innerHTML ) {//已经被选中的再次被选中则取消选中状态
+							this.className = '';
+							arr.splice(i, 1);
+							oDiv.innerHTML = arr.join(',');
+							return;
+						}
+					}
+					arr.push(this.innerHTML);
+					oDiv.innerHTML = arr.join(',');
+					this.className = 'active';
+				} else {//没按住ctrl或shift的情况
+					arr = [this.innerHTML];
+					oDiv.innerHTML = this.innerHTML;
+					for(var i=0;i<aLi.length;i++) aLi[i].className = '';
+					this.className = 'active';
+				}
+			}
+		}
+	}
+	</script>
+</head>
+<body>
+	<div></div>
+	<ul>
+		<li>宋体</li>
+		<li>黑体</li>
+		<li>楷体</li>
+		<li>微软雅黑</li>
+		<li>新宋体</li>
+		<li>仿宋</li>
+	</ul>
+</body>
+</html>

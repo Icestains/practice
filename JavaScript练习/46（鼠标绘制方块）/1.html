@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>鼠标绘制方块</title>
+	<style>
+	* { margin:0;padding:0; }
+	#div1 { width:600px;height:600px;border:1px solid green;position:absolute;top:50%;left:50%;margin:-300px 0 0 -300px; }
+	#div1 div { border:1px solid red;position:absolute; }
+	</style>
+	<script>
+	window.onload = function(){
+		var oDiv1 = document.getElementById('div1');
+		/*bug:不能反向绘制方块*/
+		oDiv1.onmousedown = function(ev){//鼠标按下创建div
+			//console.log('按下');
+			var ev = ev || event;
+			var oDiv = document.createElement('div');
+
+			var previousX = ev.clientX;
+			var previousY = ev.clientY;
+
+			oDiv.style.left = previousX - oDiv1.offsetLeft + 'px';
+			oDiv.style.top = previousY - oDiv1.offsetTop + 'px';
+
+			oDiv1.appendChild(oDiv);
+
+			document.onmousemove = function(ev){//鼠标移动改变div的宽高
+				//console.log('移动');
+				var ev = ev || event;
+				var iWidth = ev.clientX - previousX;
+				var iHeight = ev.clientY - previousY;
+
+				//反向绘制
+				if ( iWidth < 0 ) {
+					iWidth = -iWidth;
+					var l = ev.clientX - oDiv1.offsetLeft;
+					if ( l < 0 ) l = 0;
+					oDiv.style.left = l + 'px';
+				}
+				if ( iHeight < 0 ) {
+					iHeight = -iHeight;
+					var t = ev.clientY - oDiv1.offsetTop;
+					if ( t < 0 ) t = 0;
+					oDiv.style.top = t + 'px';
+				}
+
+				//限制绘制方块的最大尺寸，2为边框尺寸
+				if ( ev.clientX >=  oDiv1.offsetLeft + oDiv1.offsetWidth ) iWidth = oDiv1.offsetLeft + oDiv1.offsetWidth - previousX - 2;
+				if ( ev.clientY >= oDiv1.offsetTop + oDiv1.offsetHeight ) iHeight = oDiv1.offsetTop + oDiv1.offsetHeight - previousY -2;
+				if ( ev.clientX <= oDiv1.offsetLeft ) iWidth = previousX - oDiv1.offsetLeft;
+				if ( ev.clientY <= oDiv1.offsetTop ) iHeight = previousY - oDiv1.offsetTop;
+
+				oDiv.style.width = iWidth + 'px';
+				oDiv.style.height = iHeight + 'px';
+			}
+			document.onmouseup = function(){
+				//console.log('弹起')
+				document.onmousemove = document.onmouseup = null;
+			}
+
+			return false;//阻止默认事件
+		}
+	}
+	</script>
+</head>
+<body>
+	<div id="div1"></div>
+</body>
+</html>

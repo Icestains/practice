@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>图片自动切换</title>
+	<link rel="stylesheet" href="style/reset.css" />
+	<style>
+	html,body { width:100%;height:100%;overflow:hidden; }
+	body { background:url(../images/1.jpg) no-repeat;background-size:cover; }
+
+	#box { width:800px;height:450px;margin:30px auto;position:relative;overflow:hidden; }
+
+	#pic { width:1600px;height:450px;position:absolute;left:0; }
+	#pic img { width: 800px;height: 450px;float:left; }
+
+	#text { width:800px;height:80px;position:absolute;bottom:0px;left:0;background:rgba(0,0,0,0.5);overflow:hidden; }
+	#text h2,#text p { color:white; }
+	#text h2 { font-size:26px;padding-left:30px; }
+	#text p { font-size:18px;padding:4px 20px;text-indent:2em; }
+
+	</style>
+	<script src="style/vslw.js"></script>
+	<script>
+	window.onload = function(){
+		var oPic = $('pic');
+		var oText = $('text');
+		var aImg = document.getElementsByTagName('img');
+		var oH2Text = oText.getElementsByTagName('h2')[0];
+		var oPText = oText.getElementsByTagName('p')[0];
+
+		var imgUrl = ['../images/12.jpg','../images/13.jpg','../images/14.jpg','../images/15.jpg'];
+		var textH2 = ['标题1','标题2','标题3','标题4'];
+		var textP = ['段落1段落1段落1段落1','段落2段落2段落2段落2','段落3段落3段落3段落3','段落4段落4段落4段落4'];
+
+		var num = 0;
+		var timer = null;
+
+		Tab();
+
+		function Tab(){
+			//初始化
+			aImg[0].src = imgUrl[0];
+			oH2Text.innerHTML = textH2[0];
+			oPText.innerHTML = textP[0];
+
+			timer = setInterval(function(){
+				oPic.style.left = '0px';						//将整个pic放回来（瞬间的，因为此时两个img的图片一样所以看不到改变）
+				aImg[1].src = imgUrl[(++num)%imgUrl.length];	//将aImg[1]的图片改为下一张图片（此处aImg[1]已出右边界，看不到改变）
+
+				//图片区往左移动前先完成文字区的下移及文字区里面的文字切换（切换为下一张图片对应的文字）
+				doMove(oText, 'bottom', 8, -80, function(){
+					oH2Text.innerHTML = textH2[num%textH2.length];
+					oPText.innerHTML = textP[num%textP.length];
+					doMove(oPic, 'left', 30, -800, function(){		//整个pic区域往左移动
+						aImg[0].src = aImg[1].src;					//移动完了之后将aImg[0]的src改变为aImg[1]的（看不到改变，因为已出左边界）
+						//图片区左移完后要完成文字区的上移
+						doMove(oText, 'bottom', 8, 0);
+					});
+				});
+
+			}, 3000);
+		}
+		//每次图片切换完后要完成文字区的切换：文字区上（图片切换完后立即执行）--->文字区下（文字区下完后图片立即切换）
+	}
+
+	</script>
+</head>
+<body>
+	<div id="box">
+		<div id="pic">
+			<img src="" alt="">
+			<img src="" alt="">
+		</div>
+		<div id="text">
+			<h2></h2>
+			<p></p>
+		</div>
+	</div>
+</body>
+</html>

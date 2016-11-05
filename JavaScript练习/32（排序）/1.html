@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>排序练习</title>
+	<link rel="stylesheet" href="style/reset.css">
+	<style>
+	body { background:rgb(241,241,241); }
+	#box { width:1280px;margin:30px auto; }
+	img { width:300px;height:169px; }
+
+	#head { text-align:center;height:50px; }
+	#head a { width:90px;background:rgb(0,153,153);line-height:50px;margin:0 10px;color:white;font-weight:bold;display:inline-block; }
+
+	#content { text-align:center;background:white;margin-top:20px; }
+	#content li { float:left;margin:10px;background:rgb(241,241,241);opacity:0.8; }
+	#content li:hover { opacity:1; }
+	#content h2 { height:40px;line-height:40px;font-size:18px;font-weight:bold;color:rgb(0,102,153); }
+	</style>
+	<script src="style/vslw.js"></script>
+	<script>
+	window.onload = function(){
+		var oHead = $('head');
+		var oContent = $('content');
+		var aAHead = oHead.getElementsByTagName('a');
+		var aLiContent = oContent.getElementsByTagName('li');
+
+		var data = {
+			'imgUrl':['../images/12.jpg','../images/13.jpg','../images/14.jpg','../images/15.jpg','../images/16.jpg','../images/17.jpg','../images/18.jpg','../images/19.jpg'],
+			'imgDescribe':['1-黄色车','2-红色车','3-银色车','4-蓝色车','5-艾斯','6-路飞','7-路飞2','8-娜美']
+		};
+
+		var onOff = true;
+
+		randomSort(oContent,data);//初始化
+
+		aAHead[0].onclick = function(){
+			if ( onOff ) {
+				onOff = false;
+				smallToLarge(oContent,data);
+				this.innerHTML = '从大到小';
+			} else {
+				onOff = true;
+				LargeToSmall(oContent,data);
+				this.innerHTML = '从小到大';
+			}
+		}
+
+		aAHead[1].onclick = function(){
+			randomSort(oContent,data);
+		};
+
+		//从小到大
+		function smallToLarge(obj,data){
+			data['imgDescribe'].sort(function(a, b) {
+				return parseInt(a) - parseInt(b);
+			});
+			xieRu(obj);
+		}
+
+		//从大到小
+		function LargeToSmall(obj,data){
+			data['imgDescribe'].sort(function(a, b) {
+				return parseInt(b) - parseInt(a);
+			});
+			xieRu(obj);
+		}
+
+		//随机排序
+		function randomSort(obj,data){
+			data['imgDescribe'].sort(function(a, b){
+				return Math.random() - 0.5;
+			});
+			xieRu(obj);
+		}
+
+		//写入HTML
+		function xieRu(obj){
+			var str = '';
+			for ( var i=0; i<data['imgDescribe'].length; i++ ) {
+				str += '<li><img src="' + data['imgUrl'][ parseInt(data['imgDescribe'][i]) - 1 ] + '"><h2>' + data['imgDescribe'][i] + '</h2></li>';
+			}
+			obj.innerHTML = str;
+		}
+	}
+	</script>
+</head>
+<body>
+	<div id="box">
+		<div id="head">
+			<a href="javascript:;">从小到大</a>
+			<a href="javascript:;">打乱排序</a>
+		</div>
+		<ul id="content" class="clear"></ul>
+	</div>
+</body>
+</html>

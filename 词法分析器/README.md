@@ -20,6 +20,6 @@ $ node index.js
 
 ```
 $ cd 该文件夹路径
-$ node index.js --input=./input.js --output=./output.js
+$ node index.js --input=./input.js --output=./output.txt
 ```
-使用该命令则会分析当前文件夹下的`input.js`，并将分析结果输出到`output.js`
+使用该命令则会分析当前文件夹下的`input.js`，并将分析结果输出到`output.txt`

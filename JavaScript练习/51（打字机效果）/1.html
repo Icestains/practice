@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>打字机效果</title>
+	<style>
+
+	</style>
+	<script>
+	window.onload = function(){
+
+		typeWriterMain(document, 'p', 'typeWriter');
+
+	}
+
+	function typeWriterMain(parent,tagName,className){
+		var aTypeWriter = getByClass(parent,tagName,className);
+		var arrText = [];
+		for ( var i=0;i<aTypeWriter.length;i++ ) {
+			arrText[i] = aTypeWriter[i].innerHTML;
+			aTypeWriter[i].innerHTML = '';
+		}
+
+		var str = '';
+		for( var i=0;i<aTypeWriter.length;i++ ) {
+			if( i < aTypeWriter.length -1 ) {
+				str += 'typeWriter(aTypeWriter[' + i + '],arrText[' + i + '],function(){';
+			}else {
+				str += 'typeWriter(aTypeWriter[' + i + '],arrText[' + i + ']);';
+			}
+		}
+		for ( var j=0;j<aTypeWriter.length-1;j++ ) {
+			str += '});';
+		}
+
+		eval(str);
+	}
+
+	function typeWriter(obj, text, endFn){
+
+		var arr = text.split('');
+		var i = 0;
+
+		clearInterval(obj.timer);
+
+		obj.timer = setInterval(function(){
+			obj.innerHTML += arr[i++];
+			if ( i >= arr.length ) {
+				clearInterval(obj.timer);
+				endFn && endFn();
+			}
+		},200);
+	}
+
+	function getByClass(parent, tagName, className) {
+		var aEls = parent.getElementsByTagName(tagName);
+		var arr = [];
+
+		for (var i = 0; i < aEls.length; i++) {
+			var aClassName = aEls[i].className.split(' ');
+			for (var j = 0; j < aClassName.length; j++) {
+				if (aClassName[j] == className) {
+					arr.push(aEls[i]);
+					break;
+				}
+			}
+		}
+
+		return arr;
+	}
+	</script>
+</head>
+<body>
+	<p class="typeWriter">原标题：中国海军联合护航编队驱离15艘疑似海盗小艇</p>
+	<p class="typeWriter">近期，人均水资源占有量为全国均值1 10的缺水之城郑州，为降尘治理雾霾，市区洒水日耗3.5万余吨，此举经当地媒体报道后，引发市民持续热议，质疑声众。</p>
+	<p class="typeWriter">原标题：中国海军联合护航编队驱离15艘疑似海盗小艇</p>
+	<p class="typeWriter">近期，人均水资源占有量为全国均值1 10的缺水之城郑州，为降尘治理雾霾，市区洒水日耗3.5万余吨，此举经当地媒体报道后，引发市民持续热议，质疑声众。</p>
+	<p class="typeWriter">原标题：中国海军联合护航编队驱离15艘疑似海盗小艇</p>
+</body>
+</html>

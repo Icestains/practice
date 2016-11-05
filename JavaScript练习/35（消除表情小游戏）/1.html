@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>消除表情小游戏</title>
+	<style>
+	body { background:#f1f1f1; font-family:微软雅黑; font-size:16px; -webkit-user-select: none; }
+	#box { width:800px; height:450px; border:1px solid #066; background:#FFF; margin:20px auto 0; position:relative; top:0; left:0; }
+	#fraction { width:130px; border:1px solid #066; position:relative; top:-1px; left:-152px; background:#FFC; padding:10px; }
+	#fraction p { margin:0; font-family:微软雅黑; font-size:16px; line-height:30px; }
+	#alert { text-align:center; }
+	#qq img { position:absolute; }
+	</style>
+	<script src="style/vslw.js"></script>
+	<script>
+	window.onload = function(){
+		var oInput = document.getElementsByTagName('input')[0];
+		var oFraction = $('fraction');
+		var aPFraction = oFraction.getElementsByTagName('p');
+		var oQq = $('qq');
+		var oBox = $('box');
+		var oImgQq;
+
+		//点击开始游戏后，box中添加表情，并进行向下运动
+		oInput.onclick = function(){
+			this.value = '游戏进行中......';
+			this.disabled = true;
+
+			produceExpression();
+		}
+
+		function produceExpression () {
+			oQq.innerHTML = '<img src="img/' + Math.ceil(Math.random()*11) + '.png" style="top:0px;;left:' + Math.floor(Math.random()*776) + 'px;">';
+			oImgQq = oQq.getElementsByTagName('img')[0];
+
+			//向下运动，以及运动到最底部相关动作
+			doMove( oImgQq, 'top',  1+Number(getNum( aPFraction[0].innerHTML ) ), 426, function(){
+				aPFraction[1].innerHTML = '失分：' + (1+Number(getNum( aPFraction[1].innerHTML ) ) ) + ' 分';//失分+1
+				if( Number(getNum( aPFraction[1].innerHTML ) ) == 10 ) {//失分为10时结束游戏
+					oQq.innerHTML = '';
+					alert( '失败了~~重新开始吧！' );
+					oInput.value = '开始游戏';
+					oInput.disabled = false;
+					aPFraction[0].innerHTML = '得分：0 分';
+					aPFraction[1].innerHTML = '失分：0 分';
+					return;
+				}
+				shake(oBox, 'top');
+				produceExpression();
+			});
+
+			//点击表情，得分+1，表情停止向下移动，表情变换，并且左右抖动(抖完后该表情消失，产生新的表情)
+			oImgQq.onmousedown = function(){//点击事件比鼠标按下时间难触发，所以此处用鼠标按下事件
+				clearInterval(oImgQq.timer);//停止向下运动
+				aPFraction[0].innerHTML = '得分：' + (1+Number(getNum( aPFraction[0].innerHTML ) ) ) + ' 分';//得分+1
+				this.src = 'img/qq.png';
+				shake(this, 'left', function(){
+					produceExpression();
+				});
+			}
+		}
+	}
+	</script>
+</head>
+<body>
+	<div id="alert">
+		<h2>你的鼠标有多快？</h2>
+		<p>游戏说明：点击“开始游戏”，随机掉下QQ表情，点中它，千万别让它掉下去！！</p>
+		<input type="button" value="开始游戏" />
+	</div>
+
+	<div id="box">
+		<div id="fraction">
+			<p>得分：0 分</p>
+			<p>失分：0 分</p>
+		</div>
+		<div id="qq">
+		</div>
+	</div>
+</body>
+</html>

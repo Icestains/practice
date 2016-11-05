@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <style>
+            html,body,ul,li,h2 { margin:0;padding:0; }
+            li { list-style:none; }
+            #list { width:240px;position:relative;margin:10px auto;border:1px solid #333; }
+            #list h2 { height:30px;line-height:30px;text-indent:20px;background:url(img/ico1.gif) no-repeat 5px center #6FF; }
+            #list ul { display:none; }
+            #list ul li { width:240px;height:24px;line-height:24px;border-bottom:1px solid black;position:relative;text-indent:20px; }
+            #list .active { background:url(img/ico2.gif) no-repeat 5px center #FF9; }
+            #list .hover { background:#6FF; }
+        </style>
+        <script>
+            window.onload = function(){
+
+                //获取元素
+                var oUl = document.getElementById('list');
+                var aH2 = oUl.getElementsByTagName('h2');
+                var aUl = oUl.getElementsByTagName('ul');
+                var aLi = null;
+                var arrLi = [];
+
+                //h2点击
+                for(var i=0;i<aUl.length;i++){
+
+                    aH2[i].index = i;   //加索引
+
+                    aH2[i].onclick = function(){
+
+                        //清除非当前所有效果
+                        for(var i=0;i<aUl.length;i++){
+                            if( i != this.index ){
+                                aUl[i].style.display = 'none';
+                                aH2[i].className = '';    
+                            }
+                            
+                        }
+
+                        //点击效果
+                        if( this.className == '' ){
+                            aUl[this.index].style.display = 'block';
+                            this.className = 'active';
+                        }else{
+                            aUl[this.index].style.display = '';
+                            this.className = '';
+                        }
+
+                        
+                    }
+
+                }
+                
+                //获取所有子ul下li
+                for(var i=0;i<aUl.length;i++){
+                    aLi = aUl[i].getElementsByTagName('li');
+                    for(var j=0;j<aLi.length;j++){
+                        arrLi.push( aLi[j] );
+                    }
+                }
+
+                
+                //所有子ul下li添加点击事件
+                for(var i=0;i<arrLi.length;i++){
+                    
+                    arrLi[i].onclick = function(){
+                        
+                        //清空除当前的所有
+                        for(var i=0;i<arrLi.length;i++){
+                            if( this != arrLi[i]  ){
+                                arrLi[i].className = '';
+                            }
+                        }
+
+                        //点击效果
+                        if( this.className == '' ){
+                            this.className = 'hover';
+                        }else{
+                            this.className = '';
+                        }
+                        
+                    }
+                }
+                
+
+            }
+        </script>
+    </head>
+    <body>
+        <ul id="list">
+
+            <li>
+                <h2>我的好友</h2>
+                <ul>
+                    <li>好友1</li>
+                    <li>好友2</li>
+                    <li>好友3</li>
+                    <li>好友4</li>
+                    <li>好友5</li>
+                </ul>
+            </li>
+
+            <li>
+                <h2>企业好友</h2>
+                <ul>
+                    <li>企业1</li>
+                    <li>企业2</li>
+                    <li>企业3</li>
+                    <li>企业4</li>
+                    <li>企业5</li>
+                    <li>企业6</li>
+                </ul>
+            </li>
+
+            <li>
+                <h2>黑名单</h2>
+                <ul>
+                    <li>小黑</li>
+                    <li>小红</li>
+                    <li>小蓝</li>
+                    <li>小白</li>
+                    <li>小明</li>
+                    <li>小刚</li>
+                </ul>
+            </li>
+
+        </ul>
+    </body>
+</html>

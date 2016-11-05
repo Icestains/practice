@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>过滤HTML标签</title>
+	<script>
+	window.onload = function(){
+		var aTextArea = document.getElementsByTagName('textarea');
+		var aInput = document.getElementsByTagName('input')[0];
+
+		aInput.onclick = function(){
+			var reg = /<[^<>]+>/g;
+
+			var str = aTextArea[0].value;
+
+			aTextArea[1].value = str.replace(reg, '');
+		}
+	}
+	</script>
+</head>
+<body>
+	<textarea cols="30" rows="10"></textarea>
+	<input type="button" value="转换" />
+	<textarea cols="30" rows="10"></textarea>
+</body>
+</html>

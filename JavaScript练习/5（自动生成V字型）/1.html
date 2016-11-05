@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <style>
+            html,body,input,ul,li{
+                margin:0;
+                padding:0;
+            }
+            input{
+                padding:3px 6px;
+            }
+            li{
+                width:80px;
+                height:80px;
+                background:red;
+                position:absolute;
+                list-style:none;
+                line-height:80px;
+                text-align:center;
+                color:white;
+                font-size:50px;
+            }
+            /* #li1{
+                top:50px;
+                left:30px;
+            }
+            #li2{
+                top:130px;
+                left:110px;
+            }
+            #li3{
+                top:210px;
+                left:190px;
+            }
+            #li4{
+                top:130px;
+                left:270px;
+            }
+            #li5{
+                top:50px;
+                left:350px;
+            } */
+        </style>
+        <script>
+            window.onload = function(){
+                var oBtn = document.getElementsByTagName('input')[0];
+                var oUl = document.getElementsByTagName('ul')[0];
+                var aLi = document.getElementsByTagName('li');
+                var str = '';
+                var kedian = true;
+
+                oBtn.onclick = function(){
+                    if(kedian){
+                        for(var i=0;i<5;i++){
+                            str += '<li>' + i + '</li>';
+                        }
+                        oUl.innerHTML = str;//2-0,2-1,2-2,2-3,2-4
+                        for(var i=0;i<aLi.length;i++){
+                            var t = 210-80*(Math.abs(2-i));
+                            var l = 30+80*i;
+                            console.log(t,l,i);
+                            aLi[i].style.cssText = 'top:'+t+'px;left:'+l+'px;';
+                        }
+                        kedian = false;
+                    }
+                    
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <input type="button" value="自动生成一个V字形" />
+        <ul>
+            
+        </ul>
+    </body>
+</html>
+<!-- <li id="li1"></li>
+            <li id="li2"></li>
+            <li id="li3"></li>
+            <li id="li4"></li>
+            <li id="li5"></li> -->

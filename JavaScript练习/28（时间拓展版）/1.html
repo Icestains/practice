@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>时间拓展版</title>
+	<link rel="stylesheet" href="style/reset.css">
+	<style>
+	#box { width:968px;margin:30px auto; }
+	#box li { width:122px;height:172px;float:left;overflow:hidden;margin-left:-1px;position:relative; }
+	#box div { position:absolute;top:0; }
+	</style>
+	<script src="style/vslw.js"></script>
+	<script>
+	window.onload = function(){
+		var oBox = $('box');
+		var aDiv = oBox.getElementsByTagName('div');
+		var oColon1 = $('colon1');
+		var oColon2 = $('colon2');
+		var arrCol = ['img/colon.jpg','img/black.jpg'];
+
+		//冒号时隐实现的实现
+		colTab(oColon1);
+		colTab(oColon2);
+
+		for ( var i=0;i<aDiv.length;i++ ) {
+			aDiv[i].index = i;
+			Tab( aDiv[i] );
+		}
+
+		//获取时间的函数，返回一个时分秒的字符串
+		function fnTime(){
+			var myTime = new Date();
+			var iHours = myTime.getHours();
+			var iMinutes = myTime.getMinutes();
+			var iSeconds = myTime.getSeconds();
+			var str = toTwo(iHours)+toTwo(iMinutes)+toTwo(iSeconds);	//时间
+			return str;
+		}
+
+		function Tab( obj ){
+			var aImg = obj.getElementsByTagName('img');
+
+			var previous = fnTime().charAt(obj.index);
+
+			var timer = null;
+
+			//初始化
+			aImg[0].src = 'img/' + previous + '.jpg';
+
+			timer = setInterval(function(){
+				var temp = fnTime().charAt(obj.index);		//时间字符串的第index位的值
+
+				if( previous == temp ) return;				//在这一秒内如果这一位上的数值没有改变的话直接返回，不进行切换
+
+				obj.style.top = '0px';
+				aImg[1].src = 'img/' + Number(temp) + '.jpg';
+
+				doMove(obj, 'top', 10, -172, function(){
+					aImg[0].src = aImg[1].src;
+					previous = temp;
+				});
+			}, 1000);
+		}
+
+		function toTwo ( n ) {
+			return n < 10 ?  '0' + n : '' + n;
+		}
+
+		//控制冒号切换的函数
+		function colTab ( obj ) {
+			var timer = null;
+			var num = 0;
+			timer = setInterval(function(){
+				obj.src = arrCol[num++%arrCol.length];
+			}, 500);
+		}
+	}
+	</script>
+</head>
+<body>
+	<div id="box">
+		<ul class="clear">
+			<li>
+				<div>
+					<img src="">
+					<img src="">
+				</div>
+			</li>
+			<li>
+				<div>
+					<img src="">
+					<img src="">
+				</div>
+			</li>
+			<li>
+				<img src="img/colon.jpg" id="colon1">
+			</li>
+			<li>
+				<div>
+					<img src="">
+					<img src="">
+				</div>
+			</li>
+			<li>
+				<div>
+					<img src="">
+					<img src="">
+				</div>
+			</li>
+			<li>
+				<img src="img/colon.jpg" id="colon2">
+			</li>
+			<li>
+				<div>
+					<img src="">
+					<img src="">
+				</div>
+			</li>
+			<li>
+				<div>
+					<img src="">
+					<img src="">
+				</div>
+			</li>
+		</ul>
+	</div>
+</body>
+</html>

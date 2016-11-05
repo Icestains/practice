@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>选择卡里套选择卡</title>
+	<style>
+	html,body { height:100%;width:100%;overflow:hidden; }
+	body { margin:0;font-family:"宋体";font-size:12px;background:url(../images/1.jpg);background-size:cover; }
+	ul { margin:0;padding:0;list-style:none; }
+	img { border:none;vertical-align:top; }
+
+	#box { width:912px;margin:30px auto;zoom:1;overflow:hidden; }
+
+	#left { width:112px;float:left;height:450px;overflow:hidden; }
+	#left li { width:100px;height:100px;border:1px solid #C9C9C9;line-height:100px;text-align:center;background:rgba(16,75,136,0.6);cursor:pointer;font-size:24px;border-radius:50%;margin-bottom:14px;color:white; }
+	#left .active { background:rgba(14,39,83,0.9); }
+
+	#right { width:800px;float:right;height:450px;overflow:hidden;position:relative; }
+	#right img { width:800px;height:450px; }
+	#right ul { position:absolute;bottom:0;width:800px; }
+	#right li { float:left;height:40px;line-height:40px;text-align:center;color:white;background:rgba(0,0,0,0.5);border-left:1px solid rgba(255,255,255,0.5);cursor:pointer; }
+	#right .active { background:rgba(239,49,99,0.9); }
+	</style>
+	<script>
+	window.onload = function(){
+		var oLeft = document.getElementById('left');
+		var aLiLeft = oLeft.getElementsByTagName('li');
+		var oRight = document.getElementById('right');
+		var oImgRight = oRight.getElementsByTagName('img')[0];
+		var oUlRight = oRight.getElementsByTagName('ul')[0];
+		var aLiRight = oRight.getElementsByTagName('li');
+
+		var imgUrl = [
+						['../images/12.jpg','../images/13.jpg','../images/14.jpg','../images/15.jpg'],
+					  	['../images/16.jpg','../images/17.jpg','../images/18.jpg','../images/19.jpg'],
+					  	['../images/20.jpg','../images/21.jpg','../images/22.jpg','../images/23.jpg','../images/24.jpg'],
+					  	['../images/25.jpg','../images/26.jpg','../images/11.jpg',],
+					 ];
+
+		for ( var i=0;i<aLiLeft.length;i++ ) {							//给一级选择卡加索引
+			aLiLeft[i].index = i;
+		}
+
+		Tab ( aLiLeft[0] );												//初始化
+
+		for ( var i=0;i<aLiLeft.length;i++ ) {
+			aLiLeft[i].onclick = function () {							//一级选项卡鼠标点击事件
+				Tab ( this );
+				for ( var i=0;i<aLiLeft.length;i++ ) {					//四个一级选项卡清除类名active
+					aLiLeft[i].className -= ' active';
+				}
+				this.className += ' active';							//为当前点击的一级选项卡添加类名active
+			}
+		}
+
+		//控制一级选项卡切换的函数
+		function Tab ( obj ) {
+
+			//二级选项卡出现
+			var str = '';
+			for ( var i=0;i<imgUrl[obj.index].length;i++ ) {
+				str += '<li>第' + (i+1) + '张</li>'
+			}
+			oUlRight.innerHTML = str;
+
+			//图片出现
+			oImgRight.src = imgUrl[obj.index][0];
+			aLiRight[0].className += ' active';
+
+			//二级选项卡鼠标移入移出事件
+			for ( var i=0;i<aLiRight.length;i++ ) {
+				aLiRight[i].index = i;									//二级选项卡加索引
+				aLiRight[i].style.width = 800/aLiRight.length-1 + 'px'; //二级选项卡宽度确定
+				aLiRight[i].onmouseover = function () {					//二级选项卡鼠标移入切换图片
+					oImgRight.src =imgUrl[obj.index][this.index];
+					for ( var i=0;i<aLiRight.length;i++ ) {				//所有二级选项卡去掉active类
+						aLiRight[i].className -= ' active';
+					}
+					this.className += ' active';						//给鼠标移入的二级选项卡添加类名active
+				}
+			}
+
+		}
+	}
+	</script>
+</head>
+<body>
+	<div id="box">
+		<ul id="left">
+			<li class="active">跑车</li>
+			<li>海贼王</li>
+			<li>火影忍者</li>
+			<li>死神</li>
+		</ul>
+		<div id="right">
+			<img src="" />
+			<ul></ul>
+		</div>
+	</div>
+</body>
+</html>

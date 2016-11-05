@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>模拟滚动条</title>
+	<style>
+	* { margin:0;padding:0; }
+	body { height:2000px; }
+	#div1 { background:black;width:30px;height:500px;position:absolute;left:10px;top:10px; }
+	#div2 { background:red;width:30px;position:absolute;left:0;top:0; }
+	#div3 { width:498px;height:498px;border:1px solid green;position:absolute;left:50px;top:10px;overflow:hidden; }
+	#div4 { width:498px;position:absolute;left:0;top:0; }
+	</style>
+	<script>
+	window.onload = function(){
+		scrollBar('div1','div2','div3','div4');
+	}
+
+	function scrollBar (className,className2,className3,className4) {
+
+		var oDiv1 = getByClass(document,'div', className)[0];
+		var oDiv2 = getByClass(oDiv1, 'div', className2)[0];
+		var oDiv3 = getByClass(document, 'div', className3)[0];
+		var oDiv4 = getByClass(oDiv3, 'div', className4)[0];
+
+		var iScale = oDiv3.clientHeight / oDiv4.offsetHeight;	//求出滚动框与被滚动区域高度的比值
+
+		oDiv2.style.height = oDiv1.offsetHeight * iScale + 'px';//div2高度确定
+
+		//拖拽使滚动条滚动
+		oDiv2.onmousedown = function(ev){
+			var ev = ev || event;
+			var maxTop = oDiv1.offsetHeight - oDiv2.offsetHeight;//记录div2可以距离div1底部最大距离的变量
+			var disY = ev.clientY - this.offsetTop;//鼠标按下时记录按下位置距离div2顶部的距离(oDiv1.offsetTop省略不写了,因为会抵消掉)
+
+			document.onmousemove = function(ev){
+				var ev = ev || event;
+
+				var T = ev.clientY - disY;//用来记录div2的top值的变量
+				//div2移动范围限制
+				if ( T < 0 ) {
+					T = 0;
+				}
+				if ( T > maxTop ) {
+					T = maxTop;
+				}
+				oDiv2.style.top = T + 'px';//div2位置进行移动
+
+				var is = T / maxTop;//记录滚动条滚动位置与滚动最大距离的比值
+				oDiv4.style.top = ( oDiv3.clientHeight - oDiv4.offsetHeight ) * is + 'px';//div4进行滚动
+
+			}
+
+			document.onmouseup = function(){
+				document.onmousemove = document.onmouseup = null;
+			}
+
+			return false;
+		}
+
+		//滚轮使滚动条滚动
+		oDiv1.onmousewheel = fn;
+		oDiv3.onmousewheel = fn;
+		if ( oDiv1.addEventListener ) {	//兼容火狐
+			oDiv1.addEventListener('DOMMouseScroll', fn, false);
+			oDiv3.addEventListener('DOMMouseScroll', fn, false);
+		}
+
+		function fn(ev){
+			var ev = ev || event;
+			var b;//记录滚轮滚动方向的变量，b值为true代表上，b值为false代表下
+			var t;//记录top距离div1顶部距离的变量
+			var maxTop = oDiv1.offsetHeight - oDiv2.offsetHeight;
+
+			//判断滚动方向
+			if ( ev.wheelDelta ) {
+				b = ev.wheelDelta > 0 ? true : false;
+			} else {
+				b = ev.detail < 0 ? true : false;
+			}
+
+			//根据滚动方向改变div2的top值
+			if ( b ) {
+				t = oDiv2.offsetTop - 10;
+				if( t < 0 ) t = 0;
+				oDiv2.style.top = t + 'px';
+			} else {
+				t = oDiv2.offsetTop + 10;
+				if ( t > maxTop ) t = maxTop;
+				oDiv2.style.top = t + 'px';
+			}
+
+			//改变div4的top值
+			var iScale = oDiv2.offsetTop / maxTop;
+			oDiv4.style.top = ( oDiv3.clientHeight - oDiv4.offsetHeight ) * iScale + 'px';
+
+			//阻止默认事件
+			if ( ev.preventDefault ) {
+				ev.preventDefault();
+			}
+			return false;
+		}
+	}
+
+	function getByClass(parent, tagName, className) {
+		var aEls = parent.getElementsByTagName(tagName);
+		var arr = [];
+
+		for (var i = 0; i < aEls.length; i++) {
+			var aClassName = aEls[i].className.split(' ');
+			for (var j = 0; j < aClassName.length; j++) {
+				if (aClassName[j] == className) {
+					arr.push(aEls[i]);
+					break;
+				}
+			}
+		}
+
+		return arr;
+	}
+	</script>
+</head>
+<body>
+	<div id="div1" class="div1">
+		<div id="div2" class="div2"></div>
+	</div>
+	<div id="div3" class="div3">
+		<div id="div4" class="div4">
+			<p>新华网天津8月17日电 (记者方问禹 周润健) 17日上午，天津港“8·12”瑞海公司危险品仓库特别重大火灾爆炸事故召开第七次新闻发布会，天津市环保局总工程师包景岭说，为加强对地表水、雨污水泵站和排海口的氰化物排查，环保部门8月16日在事故区域新增了27个监测点位，其中警戒区内点位14个、警戒区外点位13个。17个点位检出氰化物，其中3个点位超标，超标点位全部位于警戒区内。</p>
+			<p>该27个氰化物排查点位的排查结果显示，对照《天津市污水综合排放标准》(DB12／356－2008)二级标准和《地表水环境质量标准》(GB3838－2002)五类水体标准，共有17个点位氰化物检出，其中3个点位超标，超标点位全部位于警戒区内，最大超标27.4倍(距事故点最近的点)，另2点分别超标4.37倍和0.96倍；警戒区外13个点位尚未发现氰化物超标，其中3个点位有氰化物检出，分别相当于控制标准的12%、7%和5%。</p>
+			<p>新华网天津8月17日电 (记者方问禹 周润健) 17日上午，天津港“8·12”瑞海公司危险品仓库特别重大火灾爆炸事故召开第七次新闻发布会，天津市环保局总工程师包景岭说，为加强对地表水、雨污水泵站和排海口的氰化物排查，环保部门8月16日在事故区域新增了27个监测点位，其中警戒区内点位14个、警戒区外点位13个。17个点位检出氰化物，其中3个点位超标，超标点位全部位于警戒区内。</p>
+			<p>该27个氰化物排查点位的排查结果显示，对照《天津市污水综合排放标准》(DB12／356－2008)二级标准和《地表水环境质量标准》(GB3838－2002)五类水体标准，共有17个点位氰化物检出，其中3个点位超标，超标点位全部位于警戒区内，最大超标27.4倍(距事故点最近的点)，另2点分别超标4.37倍和0.96倍；警戒区外13个点位尚未发现氰化物超标，其中3个点位有氰化物检出，分别相当于控制标准的12%、7%和5%。</p>
+			<p>新华网天津8月17日电 (记者方问禹 周润健) 17日上午，天津港“8·12”瑞海公司危险品仓库特别重大火灾爆炸事故召开第七次新闻发布会，天津市环保局总工程师包景岭说，为加强对地表水、雨污水泵站和排海口的氰化物排查，环保部门8月16日在事故区域新增了27个监测点位，其中警戒区内点位14个、警戒区外点位13个。17个点位检出氰化物，其中3个点位超标，超标点位全部位于警戒区内。</p>
+			<p>该27个氰化物排查点位的排查结果显示，对照《天津市污水综合排放标准》(DB12／356－2008)二级标准和《地表水环境质量标准》(GB3838－2002)五类水体标准，共有17个点位氰化物检出，其中3个点位超标，超标点位全部位于警戒区内，最大超标27.4倍(距事故点最近的点)，另2点分别超标4.37倍和0.96倍；警戒区外13个点位尚未发现氰化物超标，其中3个点位有氰化物检出，分别相当于控制标准的12%、7%和5%。</p>
+			<p>新华网天津8月17日电 (记者方问禹 周润健) 17日上午，天津港“8·12”瑞海公司危险品仓库特别重大火灾爆炸事故召开第七次新闻发布会，天津市环保局总工程师包景岭说，为加强对地表水、雨污水泵站和排海口的氰化物排查，环保部门8月16日在事故区域新增了27个监测点位，其中警戒区内点位14个、警戒区外点位13个。17个点位检出氰化物，其中3个点位超标，超标点位全部位于警戒区内。</p>
+			<p>该27个氰化物排查点位的排查结果显示，对照《天津市污水综合排放标准》(DB12／356－2008)二级标准和《地表水环境质量标准》(GB3838－2002)五类水体标准，共有17个点位氰化物检出，其中3个点位超标，超标点位全部位于警戒区内，最大超标27.4倍(距事故点最近的点)，另2点分别超标4.37倍和0.96倍；警戒区外13个点位尚未发现氰化物超标，其中3个点位有氰化物检出，分别相当于控制标准的12%、7%和5%。</p>
+			<p>新华网天津8月17日电 (记者方问禹 周润健) 17日上午，天津港“8·12”瑞海公司危险品仓库特别重大火灾爆炸事故召开第七次新闻发布会，天津市环保局总工程师包景岭说，为加强对地表水、雨污水泵站和排海口的氰化物排查，环保部门8月16日在事故区域新增了27个监测点位，其中警戒区内点位14个、警戒区外点位13个。17个点位检出氰化物，其中3个点位超标，超标点位全部位于警戒区内。</p>
+			<p>该27个氰化物排查点位的排查结果显示，对照《天津市污水综合排放标准》(DB12／356－2008)二级标准和《地表水环境质量标准》(GB3838－2002)五类水体标准，共有17个点位氰化物检出，其中3个点位超标，超标点位全部位于警戒区内，最大超标27.4倍(距事故点最近的点)，另2点分别超标4.37倍和0.96倍；警戒区外13个点位尚未发现氰化物超标，其中3个点位有氰化物检出，分别相当于控制标准的12%、7%和5%。</p>
+			<p>新华网天津8月17日电 (记者方问禹 周润健) 17日上午，天津港“8·12”瑞海公司危险品仓库特别重大火灾爆炸事故召开第七次新闻发布会，天津市环保局总工程师包景岭说，为加强对地表水、雨污水泵站和排海口的氰化物排查，环保部门8月16日在事故区域新增了27个监测点位，其中警戒区内点位14个、警戒区外点位13个。17个点位检出氰化物，其中3个点位超标，超标点位全部位于警戒区内。</p>
+			<p>该27个氰化物排查点位的排查结果显示，对照《天津市污水综合排放标准》(DB12／356－2008)二级标准和《地表水环境质量标准》(GB3838－2002)五类水体标准，共有17个点位氰化物检出，其中3个点位超标，超标点位全部位于警戒区内，最大超标27.4倍(距事故点最近的点)，另2点分别超标4.37倍和0.96倍；警戒区外13个点位尚未发现氰化物超标，其中3个点位有氰化物检出，分别相当于控制标准的12%、7%和5%。</p>
+		</div>
+	</div>
+</body>
+</html>

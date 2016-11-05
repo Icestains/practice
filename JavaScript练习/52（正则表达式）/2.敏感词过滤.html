@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>敏感词过滤</title>
+	<script>
+	window.onload = function(){
+		var str = '卧槽，吧拉屎的反对反对犯得上发大佛寺，的风景大师傅地方尼玛但是房价大幅度';
+		var reg = /卧槽|尼玛/g;
+		alert( str.replace(reg, '***') );
+	}
+	</script>
+</head>
+<body>
+</body>
+</html>

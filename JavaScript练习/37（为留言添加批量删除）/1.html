@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>为留言添加批量删除</title>
+	<script>
+	window.onload = function(){
+		var aInput = document.getElementsByTagName('input');
+		var oUl = document.getElementById('ul');
+
+		aInput[1].onclick = function() {
+			var oLi = document.createElement('li');
+			oLi.innerHTML = aInput[0].value;
+			aInput[0].value = '';
+
+			if ( oUl.children[0] ) {
+				oUl.insertBefore(oLi, oUl.children[0]);
+			} else {
+				oUl.appendChild(oLi);
+			}
+
+			if ( oUl.children.length > 5 ) {
+				oUl.removeChild(oUl.lastChild);
+			}
+
+			oLi.onclick = function() {
+				this.style.backgroundColor = 'yellow';
+				this.setAttribute('remove', true);
+			}
+		}
+
+		//批量删除：两种方法，1.根据背景颜色来判断是否删除该元素。2.添加是否删除的自定义属性
+		//方法一
+		/*
+		aInput[2].onclick = function() {
+			var aLi = oUl.getElementsByTagName('li');
+			for ( var i=0; i<aLi.length; i++ ) {
+				if ( aLi[i].style.backgroundColor == 'yellow') {
+					oUl.removeChild( aLi[i] );
+					i--;	//i要减1，aLi.length长度也减1了
+				}
+			}
+		}
+		*/
+		//方法二
+		aInput[2].onclick = function(){
+			var aLi = oUl.getElementsByTagName('li');
+			for ( var i=0; i<aLi.length; i++ ) {
+				if ( aLi[i].getAttribute('remove') == 'true' ) {
+					oUl.removeChild( aLi[i] );
+					i--;
+				}
+			}
+		}
+	}
+	</script>
+</head>
+<body>
+	<input type="text" />
+	<input type="button" value="添加" />
+	<input type="button" value="批量删除">
+	<ul id="ul"></ul>
+</body>
+</html>

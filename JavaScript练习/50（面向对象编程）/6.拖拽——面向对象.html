@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>拖拽——面向对象</title>
+	<style>
+	div { width:100px;height:100px;position:absolute; }
+	#div1 { background:red; }
+	#div2 { background:yellow; }
+	</style>
+	<script>
+	window.onload = function(){
+		new Drag('div1');//不限制移动范围的拖拽
+		new LimitDrag('div2');//限制移动范围的拖拽
+	}
+
+	//构造函数,父类
+	function Drag(id){
+	    this.disX = 0;
+	    this.disY = 0;
+	    this.oDiv = document.getElementById(id);
+
+	    var _this = this;
+
+	    this.oDiv.onmousedown =function(){
+	    	_this.fnDown();
+	    }
+	}
+
+	//父类方法
+	Drag.prototype.fnUp = function (){
+	    document.onmousemove = null;
+		document.onmouseup = null;
+			if(this.oDiv.releaseCapture){
+	            this.oDiv.releaseCapture();
+	    }
+	};
+
+	Drag.prototype.fnMove = function(ev){
+	    var ev = ev || window.event;
+	    this.oDiv.style.left = ev.clientX - this.disX + 'px';
+	    this.oDiv.style.top = ev.clientY - this.disY + 'px';
+	};
+
+	Drag.prototype.fnDown = function(ev){
+	    var ev = ev || window.event;
+	    this.disX = ev.clientX - this.oDiv.offsetLeft;
+	    this.disY = ev.clientY - this.oDiv.offsetTop;
+	    if(this.oDiv.setCapture){
+	       this.oDiv.setCapture();
+	    }
+
+	    var _this = this;
+
+	    document.onmousemove = function(){
+	    	_this.fnMove()
+	    };
+	    document.onmouseup = function(){
+	    	_this.fnUp();
+	    };
+	    return false;
+	};
+
+	//子类
+	function LimitDrag(id){
+		Drag.call(this, id);//构造函数欺骗,继承父类的属性
+	}
+
+	//继承父类的方法
+	//LimitDrag.prototype = Drag.prototype;//不能用这种方法，否则子类会反过来影响父类，因为js里所有对象都是引用
+	for(var i in Drag.prototype){
+		LimitDrag.prototype[i] = Drag.prototype[i];
+	}
+
+	//子类的方法
+	LimitDrag.prototype.fnMove = function(ev){
+		var ev = ev || window.event;
+		var t = ev.clientY - this.disY;
+		var l = ev.clientX - this.disX;
+
+		if( t<0 ) {
+			t=0;
+		}else if (t > document.documentElement.clientHeight - this.oDiv.offsetHeight){
+			t = document.documentElement.clientHeight - this.oDiv.offsetHeight;
+		}
+
+		if ( l<0 ) {
+			l = 0;
+		}else if( l > document.documentElement.clientWidth - this.oDiv.offsetWidth ) {
+			l = document.documentElement.clientWidth - this.oDiv.offsetWidth;
+		}
+
+	    this.oDiv.style.left = l + 'px';
+	    this.oDiv.style.top = t + 'px';
+	}
+
+	</script>
+</head>
+<body>
+	<div id="div1"></div>
+	<div id="div2"></div>
+</body>
+</html>

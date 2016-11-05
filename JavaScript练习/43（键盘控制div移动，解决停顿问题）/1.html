@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>键盘控制div移动，解决停顿问题</title>
+	<style>
+	div { width:100px;height:100px;background:red;position:absolute;top:0;left:0; }
+	</style>
+	<script>
+	window.onload = function(){
+		var oDiv = document.getElementsByTagName('div')[0];
+
+		//键盘按下
+		document.onkeydown = function(ev){
+			var ev = ev || event;
+			switch(ev.keyCode){
+				case 37:
+					oDiv.l = true;
+					break;
+				case 38:
+					oDiv.t = true;
+					break;
+				case 39:
+					oDiv.r = true;
+					break;
+				case 40:
+					oDiv.b = true;
+					break;
+			}
+		}
+
+		//键盘弹起
+		document.onkeyup = function(ev){
+			var ev = ev || event;
+			switch(ev.keyCode){
+				case 37:
+					oDiv.l = false;
+					break;
+				case 38:
+					oDiv.t = false;
+					break;
+				case 39:
+					oDiv.r = false;
+					break;
+				case 40:
+					oDiv.b = false;
+					break;
+			}
+		}
+
+		//定时器
+		setInterval(function(){
+			var speed = 10;
+			if(oDiv.l){
+				oDiv.style.left = oDiv.offsetLeft - speed + 'px';
+			}
+			if(oDiv.t){
+				oDiv.style.top = oDiv.offsetTop - speed + 'px';
+			}
+			if(oDiv.r){
+				oDiv.style.left = oDiv.offsetLeft + speed + 'px';
+			}
+			if(oDiv.b){
+				oDiv.style.top = oDiv.offsetTop + speed + 'px';
+			}
+		}, 30);
+	}
+	</script>
+</head>
+<body>
+	<div></div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>查找QQ号</title>
+	<script>
+	window.onload = function(){
+		var str = '我的qq是345745764，你的qq是848564454';
+
+		var reg = /^[1-9]\d{4,9}$/g;
+
+		var oInput = document.getElementsByTagName('input')[0];
+		oInput.onblur = function(){
+			alert( reg.test(oInput.value) );
+		}
+	}
+	</script>
+</head>
+<body>
+<input type="text" placeholder="请输入你的QQ号" />
+</body>
+</html>

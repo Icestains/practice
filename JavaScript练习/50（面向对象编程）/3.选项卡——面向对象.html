@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>选项卡——面向对象</title>
+	<style>
+	div { width:100px;height:100px;background:red;display:none; }
+	div.active { display:block; }
+	</style>
+	<script>
+	//面向对象
+	window.onload = function(){
+		var a = new SwitchTab();//调用构造函数
+	}
+
+	//构造函数
+	function SwitchTab(){
+		this.aInput = document.getElementsByTagName('input');
+		this.aDiv = document.getElementsByTagName('div');
+
+		var _this = this;//这里this是指SwitchTab构造出来的对象
+
+		for( var i=0;i<this.aInput.length;i++ ) {
+			this.aInput[i].index = i;
+			this.aInput[i].onclick = function(){
+				_this.tab(this);//这里this指针会发生变化，现在的this指针指向当前发生点击事件的按钮即this.aInput[i]
+			};
+		}
+	}
+
+	//添加方法
+	SwitchTab.prototype.tab =function(oBtn) {
+		for( var i=0;i<this.aDiv.length;i++ ) {
+			this.aDiv[i].className = '';
+		}
+		this.aDiv[oBtn.index].className = 'active';
+	}
+
+	//面向过程：
+	/*
+	window.onload = function(){
+		var aInput = document.getElementsByTagName('input');
+		var aDiv = document.getElementsByTagName('div');
+
+		for( var i=0;i<aInput.length;i++ ) {
+			aInput[i].index = i;
+			aInput[i].onclick = function(){
+
+				for( var i=0;i<aDiv.length;i++ ) {
+					aDiv[i].className = '';
+				}
+
+				aDiv[this.index].className = 'active';
+			};
+		}
+	}
+	*/
+	</script>
+</head>
+<body>
+	<input type="button" id="input1" value="我是选项卡1">
+	<input type="button" id="input2" value="我是选项卡2">
+	<input type="button" id="input3" value="我是选项卡3">
+	<div id="div1" class="active">我是第一个</div>
+	<div id="div2">我是第二个</div>
+	<div id="div3">我是第三个</div>
+</body>
+</html>

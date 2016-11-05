@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>延时消失的菜单</title>
+	<link rel="stylesheet" type="text/css" href="./style/reset.css">
+	<style type="text/css">
+	html,body { width:100%;height:100%;background:url(../images/1.jpg);background-size:cover;overflow:hidden; }
+
+	#box { width:800px;margin:30px auto; }
+
+	#menu { background:rgba(44,79,141,0.8);height:40px;line-height:40px;border-radius:10px; }
+	#menu li { float:left;margin-left:20px;font-size:18px;text-align:center; }
+	#menu a { color:white; }
+	#menu a:hover { text-decoration:underline; }
+
+	#submenu { margin-top:10px;background:rgba(169,131,146,0.8);height:30px;line-height:30px;float:left;border-radius:8px;display:none; }
+	#submenu li { float:left;margin:0 8px; }
+	#submenu a { color:white; }
+	#submenu a:hover { text-decoration:underline; }
+	</style>
+	<script type="text/javascript" src="./style/vslw.js"></script>
+	<script type="text/javascript">
+	window.onload = function() {
+		var oMenu = $('menu');
+		var oSubMenu = $('submenu');
+		var aLiMenu = oMenu.getElementsByTagName('li');
+		var aLiSubMenu = oSubMenu.getElementsByTagName('li');
+		var timer = null;
+		var str = ''; //用来暂存子菜单的li
+
+		var text = [['子菜单1','子菜单2','子菜单3','子菜单4'],
+					['子菜单5','子菜单6','子菜单7','子菜单8'],
+					['子菜单9','子菜单10','子菜单11','子菜单12'],
+					['子菜单13','子菜单14','子菜单15','子菜单16'],
+				   ];
+
+		for ( var i=0; i<aLiMenu.length; i++ ) {
+			aLiMenu[i].index = i;
+			aLiMenu[i].onmouseover = show;
+			aLiMenu[i].onmouseout = hide;
+		}
+
+		oSubMenu.onmouseover = function() {
+			clearTimeout(timer);
+			this.onmouseout = hide;
+		};
+
+		function show () {
+			clearTimeout(timer); //先清除定时器，防止被submenu隐藏
+			//更新子菜单里面的内容
+			str = '';
+			for ( var i=0; i<text[this.index].length;i++ ) {
+				str += '<li><a href="#">' + text[this.index][i] + '</a></li>';
+			}
+			oSubMenu.innerHTML = str;
+			//更新子菜单的位置
+			oSubMenu.style.cssText = 'margin-left:' + this.index*30 + 'px;';
+			oSubMenu.style.display = 'block'; //子菜单显示
+		}
+
+		function hide () {
+			clearTimeout(timer);
+			timer = setTimeout(function(){
+				oSubMenu.style.display = 'none';
+			}, 500);
+		}
+	}
+	</script>
+</head>
+<body>
+	<div id="box">
+		<ul id="menu" class="clear">
+			<li><a href="#">首页</a></li>
+			<li><a href="#">关于我们</a></li>
+			<li><a href="#">作品</a></li>
+			<li><a href="#">博客</a></li>
+		</ul>
+		<ul id="submenu" class="clear"></ul>
+	</div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>回到顶部</title>
+	<style>
+	* { margin:0;padding:0; }
+	body { height:4000px; }
+	div { width:100px;height:100px;background:red;position:fixed;right:10px;bottom:10px;display:none; }
+	div:hover { background:black; }
+	</style>
+	<script>
+	window.onload = function(){
+		var oDiv = document.getElementsByTagName('div')[0];
+		var clientHeight = document.documentElement.clientHeight;
+		var timer = null;
+		//var onOff = true;
+
+		window.onscroll = function(){
+			var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+			//当前scrollTop大于可视区高度时div出现，小于时隐藏
+			if ( scrollTop >= clientHeight ) {
+				oDiv.style.display = 'block';
+			} else {
+				oDiv.style.display = 'none';
+			}
+
+			/*
+			if ( !onOff ) {
+				clearInterval(timer);
+			}
+			onOff = false;
+			*/
+		}
+
+		oDiv.onclick = function(){
+			timer = setInterval(function(){
+				//逐渐减少scrollTop的值
+				var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+				if ( scrollTop <= 0 ) {
+					clearInterval(timer);
+					return;
+				}
+				var iSpeed = Math.ceil( scrollTop / 5 );
+				document.documentElement.scrollTop = document.body.scrollTop = scrollTop - iSpeed;
+				//onOff = true;
+			}, 30);
+		}
+	}
+	</script>
+</head>
+<body>
+	<div></div>
+</body>
+</html>

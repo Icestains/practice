@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>面向对象编程</title>
+	<script>
+	window.onload = function(){
+
+		//构造函数，在构造函数里加属性
+		function CreatePerson(name,sex){
+			this.name = name;
+			this.sex = sex;
+		}
+
+		//给原型加方法，这样可以避免资源浪费
+		CreatePerson.prototype.showName = function(){
+			alert(this.name);
+		}
+		CreatePerson.prototype.showSex = function(){
+			alert(this.sex);
+		}
+
+		//new对象
+		var user1 = new CreatePerson('肖高阳','男');
+		var user2 = new CreatePerson('什么鬼','未知');
+
+		//调用方法
+		user1.showName();
+		user1.showSex();
+		user2.showName();
+		user2.showSex();
+	}
+	</script>
+</head>
+<body>
+</body>
+</html>

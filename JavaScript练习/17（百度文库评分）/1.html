@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>评分</title>
+	<style>
+	body { margin:0;font-family:"宋体";font-size:12px; }
+	ul { margin:0;padding:0;list-style:none; }
+
+	.clear { zoom:1; }
+	.clear:after { content:"";display:block;clear:both; }
+
+	#box { width:500px;height:24px;margin:30px auto; }
+
+	.zw { font-size:20px;font-weight:bold;float:left;line-height:24px; }
+
+	.score { float:left; }
+	.score li { float:left;background:url(./img/1.png) no-repeat;width:20px;height:20px;margin:2px 0;padding:0 2px;cursor:pointer; }
+	.score .active { background:url(./img/2.png) no-repeat; }
+
+	.tip { height:20px;line-height:20px;float:left;background:#ffffe7;border:1px solid #dedeb5;margin-left:20px;padding:1px 6px; }
+
+	.judge { line-height:24px;font-weight:bold;margin-left:10px;float:left;color:#de6b00;display:none; }
+	</style>
+	<script>
+	window.onload = function(){
+		var oUl = document.getElementsByTagName('ul')[0];
+		var aLiUl = oUl.getElementsByTagName('li');
+		var oSpan = document.getElementsByTagName('span')[1];
+		var oDiv = document.getElementsByTagName('div')[1];
+		var str = ['差劲','一般','不错','好玩','力荐'];
+
+		for ( var i=0;i<aLiUl.length;i++ ) {
+			aLiUl[i].index = i;									//加索引
+			aLiUl[i].checked = false;							//判断是否选中的自定义属性
+
+			aLiUl[i].onmouseover = function () {				//鼠标移入
+				for ( var i=0;i<aLiUl.length;i++ ) {			//先清除所有li的active类
+					aLiUl[i].className = '';
+				}
+				for ( var i=0;i<=this.index;i++ ) {				//然后根据鼠标移入的li加active类
+					aLiUl[i].className = 'active';
+				}
+				oSpan.innerHTML = str[this.index];				//更改右侧的文字显示
+				oSpan.style.display = 'block';
+				oDiv.style.display = 'none';
+			}
+
+			aLiUl[i].onclick = function () {
+				for ( var i=0;i<aLiUl.length;i++ ) {
+					aLiUl[i].checked = false;					//每次点击之前将所有的checked都设为false
+				}
+				this.checked = true;
+			}
+
+			aLiUl[i].onmouseout = function () {					//鼠标移出：恢复上次点击后的情况
+				for ( var i=0;i<aLiUl.length;i++ ) {			//先清除所有li的active类
+					aLiUl[i].className = '';
+				}
+				for ( var i=0;i<aLiUl.length;i++ ) {			//然后给选中的以及之前的加active类
+					if ( aLiUl[i].checked ) {
+						for ( var j=0;j<=i;j++ ) {
+							aLiUl[j].className = 'active';
+						}
+						oSpan.innerHTML = str[i];				//更新右侧文字
+						break;
+					} else {
+						continue;
+					}
+				}
+				if ( i == aLiUl.length ) {						//都没有选中的情况：提示评分区域出现，文字评价区域隐藏
+					oSpan.style.display = 'none';
+					oDiv.style.display = 'block';
+				}
+			}
+		}
+	}
+	</script>
+</head>
+<body>
+	<div id="box">
+		<span class="zw">总体评价：</span>
+		<ul class="score clear">
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+		<span class="judge"></span>
+		<div class="tip">小提示：点击星星就能打分</div>
+	</div>
+</body>
+</html>

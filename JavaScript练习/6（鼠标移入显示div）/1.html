@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <style>
+
+            html,body,div,ul,li{
+                margin:0;
+                padding:0;
+                position:relative;
+            }
+            ul{
+                width:580px;
+                height:220px;
+                background:black;
+                margin:50px auto;
+                position:relative;
+            }
+            li{
+                width:80px;
+                height:80px;
+                position:absolute;
+                background:red;
+                list-style:none;
+                float:left;
+                line-height:80px;
+                text-align:center;
+            }
+            .div{
+                width:80px;
+                height:80px;
+                background:yellow;
+                display:none;
+                z-index:99;
+                position:absolute;
+                left:30px;
+                top:-40px;
+            }
+            span{
+                width:0;
+                height:0;
+                border:10px solid transparent;
+                border-top-color:yellow;
+                display:block;
+                position:absolute;
+                left:60px;
+                top:40px;
+                display:none;
+            }
+
+        </style>
+        <script>
+        
+        window.onload = function(){
+
+            var oUl = document.getElementById('container');
+            var aLi = oUl.getElementsByTagName('li');
+            var aDiv = oUl.getElementsByTagName('div');
+            var aSpan = oUl.getElementsByTagName('span');
+            var k = 0;
+
+            //为各个li定位
+            for(i=0;i<2;i++){
+                for(var j=0;j<6;j++){
+                    var left = j*100;
+                    var top = i*100+20;
+                    aLi[k++].style.cssText = 'top:' + top + 'px;left:' + left + 'px;'
+                }
+            }
+
+            for(var i=0;i<aDiv.length;i++){
+                aLi[i].index = i;                                   //加索引
+
+                //鼠标移入
+                aLi[i].onmouseover = function(){
+                    aDiv[this.index].style.display = 'block';
+                    aSpan[this.index].style.display = 'block';
+                }
+
+                //鼠标移出
+                aLi[i].onmouseout = function(){
+                    aDiv[this.index].style.display = '';
+                    aSpan[this.index].style.display = '';
+                }
+
+            }
+            
+        }
+        
+        </script>
+    </head>
+    <body>
+        <div id="box">
+            <ul id="container">
+                <li>
+                    1
+                    <div class="div">1的div</div>
+                    <span></span>
+                </li>
+
+                <li>
+                    2
+                    <div class="div">2的div</div>
+                    <span></span>
+                </li>
+
+                <li>
+                    3
+                    <div class="div">3的div</div>
+                    <span></span>
+                </li>
+
+                <li>
+                    4
+                    <div class="div">4的div</div>
+                    <span></span>
+                </li>
+
+                <li>
+                    5
+                    <div class="div">5的div</div>
+                    <span></span>
+                </li>
+
+                <li>
+                    6
+                    <div class="div">6的div</div>
+                    <span></span>
+                </li>
+
+                <li>
+                    7
+                    <div class="div">7的div</div>
+                    <span></span>
+                </li>
+
+                <li>
+                    8
+                    <div class="div">8的div</div>
+                    <span></span>
+                </li>
+
+                <li>
+                    9
+                    <div class="div">9的div</div>
+                    <span></span>
+                </li>
+
+                <li>
+                    10
+                    <div class="div">10的div</div>
+                    <span></span>
+                </li>
+
+                <li>
+                    11
+                    <div class="div">11的div</div>
+                    <span></span>
+                </li>
+
+                <li>
+                    12
+                    <div class="div">12的div</div>
+                    <span></span>
+                </li>
+
+            </ul>
+        </div>
+    </body>
+</html>

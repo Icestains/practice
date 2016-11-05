@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>拓展系统String构造函数功能</title>
+	<script>
+	window.onload = function(){
+		//给String原型拓展方法
+		String.prototype.isEmail = function(){
+			var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+			return reg.test(this);
+		}
+		String.prototype.isChineseChar = function(){
+			var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
+			return reg.test(this);
+		}
+
+		//isEamil方法的测试
+		var a = 'hhhhhhhh';
+		var b = '345745764@qq.com';
+		alert( a.isEmail() );			//false
+		alert( b.isEmail() );			//true
+
+		//isChinese方法的测试
+		var c = 'sdfsfsdf';
+		var d = '我是中文';
+		var e = 'chinese我是';
+		alert( c.isChineseChar() );		//false
+		alert( d.isChineseChar() );		//true
+		alert( e.isChineseChar() );		//true
+	}
+	</script>
+</head>
+<body>
+</body>
+</html>
+

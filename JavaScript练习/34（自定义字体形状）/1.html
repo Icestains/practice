@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>自定义字体形状</title>
+	<link rel="stylesheet" href="style/reset.css" />
+	<style>
+	#box { width:500px;margin:30px auto; }
+	p { width:480px;height:80px;border:1px solid #9d9799;padding:10px; }
+	span { font-size:24px;display:inline-block;height:48px;float:left;width:24px; }
+	select { display:block;margin:10px 0;width:100px; }
+	textarea { width:480px;height:80px;border:1px solid #9d9799;padding:10px;font-size:24px; }
+	input { width:80px;margin:6px 0 0;padding:4px 0; }
+	.ziTi1 { background:url(img/img1/1.png) no-repeat 0 24px; }
+	.ziTi2 { background:url(img/img1/2.png) no-repeat 0 24px; }
+	.ziTi3 { background:url(img/img1/3.png) no-repeat 0 24px; }
+	.ziTi4 { background:url(img/img1/4.png) no-repeat 0 24px; }
+	.ziTi5 { background:url(img/img1/5.png) no-repeat 0 24px; }
+	</style>
+	<script src="style/vslw.js"></script>
+	<script>
+	window.onload = function(){
+		var oP = document.getElementsByTagName('p')[0];
+		var aSpanP = oP.getElementsByTagName('span');
+		var oSelect = document.getElementsByTagName('select')[0];
+		var oTextarea = document.getElementsByTagName('textarea')[0];
+		var oInput = document.getElementsByTagName('input')[0];
+
+		oInput.onclick = function(){
+			var temp = oTextarea.value.split('');
+			for ( var i=0; i<temp.length; i++ ) {
+				temp[i] = '<span class="ziTi' + oSelect.value + '">' + temp[i] + '</span>';
+			}
+			oP.innerHTML = temp.join('');
+			oTextarea.value = '';
+		}
+	}
+	</script>
+</head>
+<body>
+	<div id="box">
+		<p class="clear"></p>
+		<select>
+			<option value="1">微笑字体</option>
+			<option value="2">爱心字体</option>
+			<option value="3">猪头字体</option>
+			<option value="4">钞票字体</option>
+			<option value="5">抠鼻字体</option>
+		</select>
+		<textarea></textarea>
+		<input type="button" value="确定" />
+	</div>
+</body>
+</html>

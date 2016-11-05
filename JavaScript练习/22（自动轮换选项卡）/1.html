@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>自动轮换选项卡</title>
+	<link rel="stylesheet" type="text/css" href="./style/reset.css">
+	<style type="text/css">
+	html,body { width:100%;height:100%;background:url(../images/1.jpg);background-size:cover;overflow:hidden; }
+
+	#box { width:800px;margin:80px auto; }
+
+	#top { margin:10px 0; }
+	#top li { float:left;color:white;font-size:24px;padding:6px 24px;border:1px solid white;cursor:pointer;border-radius:10px;margin:0 6px;background:rgba(90,74,103,0.8); }
+	#top .active { background:rgba(200,220,210,0.6); }
+
+	#pic { position:relative; }
+	#pic img { width:800px;height:450px; }
+	#pic ul { position:absolute;bottom:0;left:0; }
+	#pic li { float:left;color:white;line-height:40px;text-align:center;border-right:1px solid white;background:rgba(0,0,0,0.5);font-size:20px;cursor:pointer; }
+	#pic .active { background:rgba(200,200,200,0.8); }
+	</style>
+	<script type="text/javascript" src="./style/vslw.js"></script>
+	<script type="text/javascript">
+	window.onload = function(){
+		var oTop = $('top');
+		var aLiTop = oTop.getElementsByTagName('li');
+		var oPic = $('pic');
+		var aLiPic = oPic.getElementsByTagName('li');
+		var oImg = oPic.getElementsByTagName('img')[0];
+		var oSM = $('shuoming');
+		var timer = null;
+		var num1 = 0; //顶部的数字参数
+		var num2 = 0;
+		var str = '';
+
+		var text = ['跑车','火影'];
+		var imgUrl = [
+						['../images/12.jpg','../images/13.jpg','../images/14.jpg','../images/15.jpg'],
+					  	['../images/20.jpg','../images/21.jpg','../images/22.jpg','../images/23.jpg','../images/24.jpg','../images/10.jpg']
+					 ];
+
+
+		//初始化区域
+		topTab();
+		textTab(); //图片描述文字区域切换
+		picTab();
+		Tab();
+
+		function Tab() {
+			timer = setInterval(function(){
+				//更新num1,num2的值,num2到最后一个时切换到下一个选项卡即更新num1,并将num2置为0
+				num2++;
+				if ( num2 >= imgUrl[num1].length ) {
+					num2 = 0;
+					num1 = (++num1)%imgUrl.length;
+					textTab();
+					topTab();
+				}
+				picTab();
+			}, 1000);
+		}
+
+		function topTab() {
+			str = '';
+			//更新顶部菜单
+			for ( var i=0; i<text.length; i++ ) {
+				str += '<li>' + text[i] + '</li>';
+			}
+			oTop.innerHTML = str;
+			//当前顶部背景颜色改变
+			for ( var i=0; i<imgUrl.length; i++ ) {
+				aLiTop[i].className = '';
+			}
+			aLiTop[num1].className = 'active';
+		}
+
+		function picTab () {
+			//更新图片
+			oImg.src = imgUrl[num1][num2];
+
+			//当前图片描述文字背景颜色改变
+			for ( var i=0; i<imgUrl[num1].length; i++ ) {
+				aLiPic[i].className = '';
+			}
+			aLiPic[num2].className = 'active';
+		}
+
+		//图片说明文字切换函数，当num1改变时调用
+		function textTab () {
+			str = '';
+			for ( var i=0; i<imgUrl[num1].length; i++ ) {
+				str += '<li>图片' + (1+i) + '</li>';
+			}
+			oSM.innerHTML = str;
+
+			for ( var i=0; i<aLiPic.length; i++ ) {
+				aLiPic[i].style.width = 800/aLiPic.length-1 + 'px';
+			}
+		}
+
+	}
+	</script>
+</head>
+<body>
+	<div id="box">
+		<ul id="top" class="clear"></ul>
+		<div id="pic">
+			<img src="" />
+			<ul id="shuoming"></ul>
+		</div>
+	</div>
+</body>
+</html>
