@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>算符优先分析法</title>
+  <style>
+    input {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <div>
+      <input type="text" id="number" placeholder="请输入产生式条数">
+      <input type="button" id="confirm" value="确定">
+    </div>
+
+    <div id="sentence">
+      <input type="text" id="number" placeholder="请输入要分析的字符串">
+    </div>
+
+    <div id="production"></div>
+
+    <input type="button" id="finish" value="完成" />
+
+    <div id="result"></div>
+  </div>
+  
+  <script src="./main.js"></script>
+  <script>
+    // 根据产生式条数生产输入框
+    const makeInputBox = (number) => {
+      const oPro = document.getElementById('production');
+      let string = '';
+      for(let i=0;i<number;i++){
+        string += '<input type="text" placeholder="请输入产生式" /><br />';
+      }
+      oPro.innerHTML = string;
+    };
+
+    window.onload = () => {
+      const oConfirm = document.getElementById('confirm');
+      const oNumber = document.getElementById('number');
+
+      oConfirm.onclick = () => {
+        const number = Number(oNumber.value);
+        if( !number || isNaN(number) ){
+          alert('请输入产生式数目');
+          return;
+        }
+        makeInputBox(number);
+      }
+
+      const oFinish = document.getElementById('finish');
+      oFinish.onclick = () => {
+        const oProElement = document.getElementById('production');
+        if(oProElement.innerHTML === ''){
+          alert('请先输入并确定产生式条数');
+          return;
+        }
+        const aProElement = oProElement.getElementsByTagName('input');
+        
+        const aPro = [];
+        for(let i=0;i<aProElement.length;i++){
+          if(!aProElement[i].value) {
+            alert('请输入产生式');
+            return;
+          }
+          aPro.push(aProElement[i].value);
+        }
+        
+        const oSentence = document.getElementById('sentence').getElementsByTagName('input')[0];
+        if(!oSentence.value){
+          alert('请输入要分析的字符串');
+          return;
+        }
+        const str = oSentence.value;
+
+        const oResult = document.getElementById('result');
+        main(aPro,str+'#',(arg)=>{
+          let result = '';
+          result += arg + '<br/>';
+          oResult.innerHTML += result;
+        });
+
+      }
+
+    }
+  </script>
+</body>
+</html>
