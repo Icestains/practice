@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>图片压缩</title>
+  <style>
+    #drop_zone {
+      width: 230px;
+      height: 230px;
+      font-size: 18px;
+      margin: 25px auto;
+      padding: 10px;
+      border-radius: 6px;
+      border: 3px dashed #3a3a3a;
+    }
+    p {
+      height: 42px;
+      line-height: 21px;
+      margin-top: 94px;
+      text-align: center;
+      font-weight: bold;
+      color: #3a3a3a;
+    }
+    #tip {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="drop_zone">
+    <p>将文件夹或图片<br>拖拽到此区域</p>
+  </div>
+  <div id="tip"></div>
+  <script>
+    const imageMin = require('./imageMin');
+    const oTip = document.getElementById('tip');
+
+    function handleDrag(evt) {
+      evt.stopPropagation();
+      evt.preventDefault();
+
+      const files = evt.dataTransfer.files; // 文件对象
+      oTip.innerHTML = '压缩中...';
+      let pending = 0;
+      for(let i=0;i<files.length;i++){
+        const path = files[i].path;
+
+        imageMin.imageMin(path,()=>{
+          oTip.innerHTML = '压缩完成';
+        });
+      }
+
+    }
+
+    function handleDragOver(evt) {
+      evt.stopPropagation();
+      evt.preventDefault();
+    }
+
+    var dropZone = document.getElementById('drop_zone');
+    dropZone.addEventListener('dragover', handleDragOver, false);
+    dropZone.addEventListener('drop', handleDrag, false);
+  </script>
+</body>
+</html>

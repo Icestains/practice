@@ -1,0 +1,21 @@
+{
+  "name": "electron-imagemin",
+  "version": "0.1.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "package": "electron-packager ./ 图片压缩工具 --platform=win32 --arch=x64 --version=1.4.8 --overwrite --icon=./app/favicon.ico --ignore=node_modules/.npminstall --out=D:/"
+  },
+  "author": "XiaoGaoYang",
+  "license": "ISC",
+  "dependencies": {
+    "imagemin": "^5.2.2",
+    "imagemin-mozjpeg": "^6.0.0",
+    "imagemin-pngquant": "^5.0.0"
+  },
+  "devDependencies": {
+    "electron": "^1.4.8",
+    "electron-packager": "^8.3.0"
+  }
+}
